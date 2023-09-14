@@ -53,9 +53,7 @@ func Test_impl_Signup(t *testing.T) {
 				createUser: &model.User{
 					Email:          "admin@d.foundation",
 					FullName:       "admin",
-					Status:         "active",
 					Avatar:         "https://d.foundation/avatar.png",
-					Role:           "admin",
 					HashedPassword: "hash",
 					Salt:           "abcdef",
 				},
@@ -82,9 +80,7 @@ func Test_impl_Signup(t *testing.T) {
 				getUser: &model.User{
 					Email:          "admin@d.foundation",
 					FullName:       "admin",
-					Status:         "active",
 					Avatar:         "https://d.foundation/avatar.png",
-					Role:           "admin",
 					HashedPassword: "hash",
 					Salt:           "abcdef",
 				},

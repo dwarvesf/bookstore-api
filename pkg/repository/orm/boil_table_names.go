@@ -4,9 +4,15 @@
 package orm
 
 var TableNames = struct {
+	Books          string
+	Favorites      string
 	GorpMigrations string
+	Topics         string
 	Users          string
 }{
+	Books:          "books",
+	Favorites:      "favorites",
 	GorpMigrations: "gorp_migrations",
+	Topics:         "topics",
 	Users:          "users",
 }

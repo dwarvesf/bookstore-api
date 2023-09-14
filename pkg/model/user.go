@@ -39,7 +39,5 @@ type User struct {
 	HashedPassword string
 	Salt           string
 	FullName       string
-	Status         string
 	Avatar         string
-	Role           string
 }

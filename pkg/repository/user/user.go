@@ -54,8 +54,6 @@ func (r *repo) Create(ctx db.Context, user model.SignupRequest) (*model.User, er
 		Email:          user.Email,
 		HashedPassword: user.HashedPassword,
 		Salt:           user.Salt,
-		Status:         string(user.Status),
-		Role:           string(user.Role),
 		Avatar:         user.Avatar,
 	}
 

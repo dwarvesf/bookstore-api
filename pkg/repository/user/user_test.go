@@ -16,9 +16,7 @@ func Test_repo_GetByID(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -41,10 +39,8 @@ func Test_repo_GetByID(t *testing.T) {
 					ID:             u.ID,
 					Email:          u.Email,
 					FullName:       u.Name,
-					Status:         u.Status,
 					Avatar:         u.Avatar,
 					HashedPassword: u.HashedPassword,
-					Role:           u.Role,
 					Salt:           u.Salt,
 				},
 				wantErr: false,
@@ -76,9 +72,7 @@ func Test_repo_Count(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -115,9 +109,7 @@ func Test_repo_GetByEmail(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -140,10 +132,8 @@ func Test_repo_GetByEmail(t *testing.T) {
 					ID:             u.ID,
 					Email:          u.Email,
 					FullName:       u.Name,
-					Status:         u.Status,
 					Avatar:         u.Avatar,
 					HashedPassword: u.HashedPassword,
-					Role:           u.Role,
 					Salt:           u.Salt,
 				},
 				wantErr: false,
@@ -177,9 +167,7 @@ func Test_repo_Create(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin1@d.foundation",
 			Name:           "admin1",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -209,9 +197,7 @@ func Test_repo_Create(t *testing.T) {
 				want: &model.User{
 					Email:          "admin@d.foundation",
 					FullName:       "admin",
-					Status:         "active",
 					Avatar:         "https://d.foundation/avatar.png",
-					Role:           "admin",
 					HashedPassword: "123456",
 					Salt:           "abcdef",
 				},
@@ -243,9 +229,7 @@ func Test_repo_Update(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -274,9 +258,7 @@ func Test_repo_Update(t *testing.T) {
 					Email:          u.Email,
 					FullName:       "admin1",
 					Avatar:         "https://d.foundation/avatar2.png",
-					Status:         u.Status,
 					HashedPassword: u.HashedPassword,
-					Role:           u.Role,
 					Salt:           u.Salt,
 				},
 				wantErr: false,
@@ -310,9 +292,7 @@ func Test_repo_UpdatePassword(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -337,10 +317,8 @@ func Test_repo_UpdatePassword(t *testing.T) {
 					ID:             u.ID,
 					Email:          u.Email,
 					FullName:       u.Name,
-					Status:         u.Status,
 					Avatar:         u.Avatar,
 					HashedPassword: "1234567",
-					Role:           u.Role,
 					Salt:           u.Salt,
 				},
 				wantErr: false,
@@ -371,9 +349,7 @@ func Test_repo_GetList(t *testing.T) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
 			Name:           "admin",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -383,9 +359,7 @@ func Test_repo_GetList(t *testing.T) {
 		u = &orm.User{
 			Email:          "admin1@d.foundation",
 			Name:           "admin1",
-			Status:         "active",
 			Avatar:         "https://d.foundation/avatar1.png",
-			Role:           "admin",
 			HashedPassword: "123456",
 			Salt:           "abcdef",
 		}
@@ -424,18 +398,14 @@ func Test_repo_GetList(t *testing.T) {
 						{
 							Email:          "admin@d.foundation",
 							FullName:       "admin",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
 						{
 							Email:          "admin1@d.foundation",
 							FullName:       "admin1",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar1.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
@@ -464,18 +434,14 @@ func Test_repo_GetList(t *testing.T) {
 						{
 							Email:          "admin1@d.foundation",
 							FullName:       "admin1",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar1.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
 						{
 							Email:          "admin@d.foundation",
 							FullName:       "admin",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
@@ -504,18 +470,14 @@ func Test_repo_GetList(t *testing.T) {
 						{
 							Email:          "admin1@d.foundation",
 							FullName:       "admin1",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar1.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
 						{
 							Email:          "admin@d.foundation",
 							FullName:       "admin",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},
@@ -544,9 +506,7 @@ func Test_repo_GetList(t *testing.T) {
 						{
 							Email:          "admin@d.foundation",
 							FullName:       "admin",
-							Status:         "active",
 							Avatar:         "https://d.foundation/avatar.png",
-							Role:           "admin",
 							HashedPassword: "123456",
 							Salt:           "abcdef",
 						},

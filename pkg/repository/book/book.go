@@ -1,0 +1,82 @@
+package book
+
+import (
+	"fmt"
+
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/base"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/orm"
+	"github.com/volatiletech/null/v8"
+	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+)
+
+type repo struct {
+}
+
+func (r *repo) GetList(ctx db.Context, q model.ListQuery) (*model.ListResult[model.Book], error) {
+	fnSet := base.GetListFuncSet[orm.Book, model.Book]{
+		PrepareQueryFn: func(ctx db.Context, q model.ListQuery) []qm.QueryMod {
+			queryParams := []qm.QueryMod{}
+			if q.Query != "" {
+				queryParams = append(queryParams, qm.Where("lower(name) LIKE lower(?) OR lower(author) LIKE lower(?)", "%"+q.Query+"%", "%"+q.Query+"%"))
+			}
+
+			if q.Types != nil {
+				for k, v := range q.Types {
+					if v != nil {
+						queryParams = append(queryParams, qm.Where(fmt.Sprintf("%s=?", k), v))
+					}
+				}
+			}
+			return queryParams
+		},
+		CounableFn: func(q []qm.QueryMod) base.Counable {
+			return orm.Books(q...)
+		},
+		QueryListFn: func(q []qm.QueryMod) ([]*orm.Book, error) {
+			q = append(q, qm.Load("Topic"))
+			return orm.Books(q...).All(ctx.Context, ctx.DB)
+		},
+		MappingFn: toBookModel,
+	}
+
+	return base.GetList(ctx, q, fnSet)
+}
+
+func (r *repo) Count(ctx db.Context) (int64, error) {
+	return orm.Books().Count(ctx.Context, ctx.DB)
+}
+
+func (r *repo) GetByID(ctx db.Context, uID int) (*model.Book, error) {
+	dt, err := orm.Books(qm.Where("id=?", uID), qm.Load("Topic")).One(ctx.Context, ctx.DB)
+	return toBookModel(dt), err
+}
+
+func (r *repo) Create(ctx db.Context, book model.CreateBookRequest) (*model.Book, error) {
+	u := &orm.Book{
+		Name:    book.Name,
+		Author:  null.String{String: book.Author, Valid: book.Author != ""},
+		TopicID: null.Int{Int: book.TopicID, Valid: book.TopicID != 0},
+	}
+
+	err := u.Insert(ctx, ctx.DB, boil.Infer())
+
+	u, err = orm.Books(qm.Where("id=?", u.ID), qm.Load("Topic")).One(ctx.Context, ctx.DB)
+	return toBookModel(u), err
+}
+
+func (r *repo) Update(ctx db.Context, uID int, book model.UpdateBookRequest) (*model.Book, error) {
+	u, err := orm.FindBook(ctx, ctx.DB, uID)
+	if err != nil {
+		return nil, err
+	}
+
+	u.Name = book.Name
+	u.Author = null.String{String: book.Author, Valid: book.Author != ""}
+	u.TopicID = null.Int{Int: book.TopicID, Valid: book.TopicID != 0}
+
+	_, err = u.Update(ctx, ctx.DB, boil.Infer())
+	return toBookModel(u), err
+}

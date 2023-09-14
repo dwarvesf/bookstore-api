@@ -30,10 +30,8 @@ func toUserModel(user *orm.User) *model.User {
 		ID:             user.ID,
 		Email:          user.Email,
 		FullName:       user.Name,
-		Status:         user.Status,
 		Avatar:         user.Avatar,
 		HashedPassword: user.HashedPassword,
-		Role:           user.Role,
 		Salt:           user.Salt,
 	}
 }

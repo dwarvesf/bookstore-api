@@ -12,4 +12,5 @@ type ListQuery struct {
 	PageSize int
 	Sort     string
 	Query    string
+	Types    map[string]interface{}
 }

@@ -13,6 +13,17 @@ definitions:
     - email
     - id
     type: object
+  Book:
+    properties:
+      author:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      topic:
+        $ref: '#/definitions/Topic'
+    type: object
   ErrorDetail:
     properties:
       error:
@@ -39,6 +50,15 @@ definitions:
     - code
     - error
     - traceId
+    type: object
+  GetBooksResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/Book'
+        type: array
+      metadata:
+        $ref: '#/definitions/Metadata'
     type: object
   LoginRequest:
     properties:
@@ -82,6 +102,26 @@ definitions:
       data:
         $ref: '#/definitions/Message'
     type: object
+  Metadata:
+    properties:
+      hasNext:
+        type: boolean
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      sort:
+        type: string
+      totalPages:
+        type: integer
+      totalRecords:
+        type: integer
+    required:
+    - page
+    - pageSize
+    - totalPages
+    - totalRecords
+    type: object
   SignupRequest:
     properties:
       avatar:
@@ -98,6 +138,15 @@ definitions:
     - email
     - fullName
     - password
+    type: object
+  Topic:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
     type: object
   UpdatePasswordRequest:
     properties:
@@ -134,15 +183,15 @@ definitions:
     type: object
 info:
   contact:
-    email: andy@d.foundation
-    name: Andy
+    email: datphammail@gmail.com
+    name: Datpv
     url: https://d.foundation
-  description: This is api document for APP API project.
+  description: This is api document for BOOKSTORE SERVICE project.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: APP API DOCUMENT
+  title: BOOKSTORE SERVICE
   version: v0.0.1
 paths:
   /portal/auth/login:
@@ -213,6 +262,56 @@ paths:
       summary: Signup
       tags:
       - Auth
+  /portal/books:
+    get:
+      consumes:
+      - application/json
+      description: Get list of books
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        type: integer
+      - description: Sort
+        in: query
+        name: sort
+        type: string
+      - description: Query
+        in: query
+        name: query
+        type: string
+      - description: Topic ID
+        in: query
+        name: topic_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetBooksResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get list of books
+      tags:
+      - Book
   /portal/me:
     get:
       consumes:
