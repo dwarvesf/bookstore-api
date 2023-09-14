@@ -1,0 +1,105 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
+
+	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/df-bookstore-srv/pkg/logger"
+	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
+	"github.com/dwarvesf/df-bookstore-srv/pkg/repository"
+	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
+	"github.com/dwarvesf/df-bookstore-srv/pkg/service"
+)
+
+// @title           BOOKSTORE SERVICE
+// @version         v0.0.1
+// @description     This is api document for BOOKSTORE SERVICE project.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Datpv
+// @contact.url    https://d.foundation
+// @contact.email  datphammail@gmail.com
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @BasePath  /api/v1
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+func main() {
+	cfg := config.LoadConfig(config.DefaultConfigLoaders())
+	sMonitor, err := monitor.NewSentry(cfg)
+	if err != nil {
+		log.Fatal(err, "failed to init sentry")
+	}
+
+	if sMonitor != nil {
+		defer sMonitor.Clean(2 * time.Second)
+	}
+
+	l := logger.NewLogByConfig(cfg)
+	l.Infof("Server starting")
+
+	a := App{
+		l:       l,
+		cfg:     cfg,
+		service: service.New(cfg),
+		repo:    repository.NewRepo(),
+		monitor: sMonitor,
+	}
+
+	_, err = db.Init(*cfg)
+	if err != nil {
+		l.Fatal(err, "failed to init db")
+	}
+
+	// Server
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%s", cfg.Port),
+		Handler: setupRouter(a),
+	}
+
+	quit := make(chan os.Signal)
+
+	// serve http server
+	go func() {
+		a.l.Info("listening on " + a.cfg.Port)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatal(err, "failed to listen and serve")
+		}
+
+		quit <- os.Interrupt
+	}()
+
+	signal.Notify(quit, os.Interrupt)
+
+	<-quit
+
+	shutdownServer(srv, l)
+}
+
+func shutdownServer(srv *http.Server, l logger.Log) {
+	l.Info("Server Shutting Down")
+	if err := srv.Shutdown(context.Background()); err != nil {
+		l.Error(err, "failed to shutdown server")
+	}
+
+	l.Info("Server Exit")
+}
+
+// App api app instance
+type App struct {
+	l       logger.Log
+	cfg     *config.Config
+	service service.Service
+	repo    *repository.Repo
+	monitor monitor.Tracer
+}
