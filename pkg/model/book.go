@@ -2,6 +2,7 @@ package model
 
 // UpdateBookRequest represent the update book request
 type UpdateBookRequest struct {
+	ID      int
 	Name    string
 	Author  string
 	TopicID int

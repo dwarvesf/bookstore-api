@@ -210,8 +210,8 @@ func Test_repo_Update(t *testing.T) {
 		}{
 			"success": {
 				args: args{
-					uID: u.ID,
 					book: model.UpdateBookRequest{
+						ID:      u.ID,
 						Name:    "book2",
 						Author:  "author2",
 						TopicID: topic.ID,
@@ -235,7 +235,7 @@ func Test_repo_Update(t *testing.T) {
 		for name, tt := range tests {
 			t.Run(name, func(t *testing.T) {
 				r := &repo{}
-				got, err := r.Update(ctx, tt.args.uID, tt.args.book)
+				got, err := r.Update(ctx, tt.args.book)
 				if (err != nil) != tt.wantErr {
 					t.Errorf("repo.Update() error = %v, wantErr %v", err, tt.wantErr)
 					return

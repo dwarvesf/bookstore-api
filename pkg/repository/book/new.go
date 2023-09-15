@@ -12,7 +12,7 @@ type Repo interface {
 	GetList(ctx db.Context, q model.ListQuery) (*model.ListResult[model.Book], error)
 	Count(ctx db.Context) (int64, error)
 	Create(ctx db.Context, book model.CreateBookRequest) (*model.Book, error)
-	Update(ctx db.Context, uD int, book model.UpdateBookRequest) (*model.Book, error)
+	Update(ctx db.Context, book model.UpdateBookRequest) (*model.Book, error)
 	IsExist(ctx db.Context, ID int) (bool, error)
 	Delete(ctx db.Context, ID int) error
 }

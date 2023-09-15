@@ -7,9 +7,9 @@ import (
 	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
 )
 
-// CreateBook get books
-func (c *impl) CreateBook(ctx context.Context, book model.CreateBookRequest) (*model.Book, error) {
-	const spanName = "CreateBook"
+// UpdateBook update book
+func (c *impl) UpdateBook(ctx context.Context, book model.UpdateBookRequest) (*model.Book, error) {
+	const spanName = "UpdateBook"
 	ctx, span := c.monitor.Start(ctx, spanName)
 	defer span.End()
 
@@ -26,10 +26,10 @@ func (c *impl) CreateBook(ctx context.Context, book model.CreateBookRequest) (*m
 		}
 	}
 
-	res, err := c.repo.Book.Create(dbCtx, book)
+	_, err := c.repo.Book.Update(dbCtx, book)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return c.repo.Book.GetByID(dbCtx, book.ID)
 }

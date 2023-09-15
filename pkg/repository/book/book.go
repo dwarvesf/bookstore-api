@@ -67,8 +67,8 @@ func (r *repo) Create(ctx db.Context, book model.CreateBookRequest) (*model.Book
 	return toBookModel(u), err
 }
 
-func (r *repo) Update(ctx db.Context, uID int, book model.UpdateBookRequest) (*model.Book, error) {
-	u, err := orm.FindBook(ctx, ctx.DB, uID)
+func (r *repo) Update(ctx db.Context, book model.UpdateBookRequest) (*model.Book, error) {
+	u, err := orm.FindBook(ctx, ctx.DB, book.ID)
 	if err != nil {
 		return nil, err
 	}

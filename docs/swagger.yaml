@@ -159,6 +159,17 @@ definitions:
       name:
         type: string
     type: object
+  UpdateBookRequest:
+    properties:
+      author:
+        type: string
+      name:
+        type: string
+      topic_id:
+        type: integer
+    required:
+    - name
+    type: object
   UpdatePasswordRequest:
     properties:
       newPassword:
@@ -391,6 +402,46 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete book by id
+      tags:
+      - Book
+    put:
+      consumes:
+      - application/json
+      description: Update book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Book Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update book
       tags:
       - Book
   /portal/me:

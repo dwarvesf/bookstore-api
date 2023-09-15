@@ -1,7 +1,6 @@
 package portal
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -144,7 +143,6 @@ func (h Handler) DeleteBook(c *gin.Context) {
 	defer span.End()
 
 	bookID := c.Param("id")
-	fmt.Println(bookID)
 	ID, err := strconv.Atoi(bookID)
 	if err != nil {
 		util.HandleError(c, model.ErrInvalidBookID)
@@ -158,4 +156,50 @@ func (h Handler) DeleteBook(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, view.Message{Message: "OK"})
+}
+
+// UpdateBook godoc
+// @Summary Update book
+// @Description Update book
+// @Tags Book
+// @Accept  json
+// @Produce  json
+// @Security BearerAuth
+// @Param id path int true "Book ID"
+// @Param body body UpdateBookRequest true "Update Book Request"
+// @Success 200 {object} Book
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /portal/books/{id} [put]
+func (h Handler) UpdateBook(c *gin.Context) {
+	const spanName = "UpdateBook"
+	newCtx, span := h.monitor.Start(c.Request.Context(), spanName)
+	defer span.End()
+
+	bookID := c.Param("id")
+	ID, err := strconv.Atoi(bookID)
+	if err != nil {
+		util.HandleError(c, model.ErrInvalidBookID)
+		return
+	}
+
+	var req view.UpdateBookRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	res, err := h.bookCtrl.UpdateBook(newCtx, model.UpdateBookRequest{
+		ID:      ID,
+		Name:    req.Name,
+		Author:  req.Author,
+		TopicID: req.TopicID,
+	})
+	if err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, toBookView(res))
 }
