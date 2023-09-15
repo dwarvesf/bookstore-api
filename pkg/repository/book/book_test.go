@@ -468,3 +468,110 @@ func Test_repo_GetList(t *testing.T) {
 		}
 	})
 }
+
+func Test_repo_IsExist(t *testing.T) {
+	db.WithTestingDB(t, func(ctx db.Context) {
+		topic := &orm.Topic{
+			Name: "topic1",
+			Code: "code1",
+		}
+		err := topic.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		u := &orm.Book{
+			Name:    "book1",
+			Author:  null.String{String: "author1", Valid: true},
+			TopicID: null.Int{Int: topic.ID, Valid: true},
+		}
+		err = u.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		type args struct {
+			uID int
+		}
+		tests := map[string]struct {
+			args    args
+			want    bool
+			wantErr bool
+		}{
+			"success": {
+				args: args{
+					uID: u.ID,
+				},
+				want:    true,
+				wantErr: false,
+			},
+			"not found": {
+				args: args{
+					uID: u.ID + 1,
+				},
+				want:    false,
+				wantErr: false,
+			},
+		}
+		for name, tt := range tests {
+			t.Run(name, func(t *testing.T) {
+				r := &repo{}
+				got, err := r.IsExist(ctx, tt.args.uID)
+				if (err != nil) != tt.wantErr {
+					t.Errorf("repo.IsExist() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				require.Equal(t, tt.want, got)
+			})
+		}
+	})
+}
+
+func Test_repo_Delete(t *testing.T) {
+	db.WithTestingDB(t, func(ctx db.Context) {
+		topic := &orm.Topic{
+			Name: "topic1",
+			Code: "code1",
+		}
+		err := topic.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		u := &orm.Book{
+			Name:    "book1",
+			Author:  null.String{String: "author1", Valid: true},
+			TopicID: null.Int{Int: topic.ID, Valid: true},
+		}
+		err = u.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		type args struct {
+			uID int
+		}
+		tests := map[string]struct {
+			args    args
+			want    bool
+			wantErr bool
+		}{
+			"success": {
+				args: args{
+					uID: u.ID,
+				},
+				want:    true,
+				wantErr: false,
+			},
+			"not found": {
+				args: args{
+					uID: u.ID + 1,
+				},
+				want:    false,
+				wantErr: false,
+			},
+		}
+		for name, tt := range tests {
+			t.Run(name, func(t *testing.T) {
+				r := &repo{}
+				err := r.Delete(ctx, tt.args.uID)
+				if (err != nil) != tt.wantErr {
+					t.Errorf("repo.IsExist() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+			})
+		}
+	})
+}

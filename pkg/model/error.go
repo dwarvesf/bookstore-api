@@ -44,6 +44,20 @@ var (
 		Code:    "TOPIC_NOT_FOUND",
 		Message: "topic not found",
 	}
+
+	// ErrBookNotFound is the error for topic not found
+	ErrBookNotFound = Error{
+		Status:  http.StatusNotFound,
+		Code:    "BOOK_NOT_FOUND",
+		Message: "book not found",
+	}
+
+	// ErrInvalidBookID is the error for invalid book id
+	ErrInvalidBookID = Error{
+		Status:  http.StatusBadRequest,
+		Code:    "INVALID_BOOK_ID",
+		Message: "invalid book id",
+	}
 )
 
 // Error in server

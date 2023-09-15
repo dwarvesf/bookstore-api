@@ -77,6 +77,49 @@ func (_c *Controller_CreateBook_Call) RunAndReturn(run func(context.Context, mod
 	return _c
 }
 
+// DeleteBook provides a mock function with given fields: ctx, ID
+func (_m *Controller) DeleteBook(ctx context.Context, ID int) error {
+	ret := _m.Called(ctx, ID)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, ID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Controller_DeleteBook_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteBook'
+type Controller_DeleteBook_Call struct {
+	*mock.Call
+}
+
+// DeleteBook is a helper method to define mock.On call
+//   - ctx context.Context
+//   - ID int
+func (_e *Controller_Expecter) DeleteBook(ctx interface{}, ID interface{}) *Controller_DeleteBook_Call {
+	return &Controller_DeleteBook_Call{Call: _e.mock.On("DeleteBook", ctx, ID)}
+}
+
+func (_c *Controller_DeleteBook_Call) Run(run func(ctx context.Context, ID int)) *Controller_DeleteBook_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *Controller_DeleteBook_Call) Return(_a0 error) *Controller_DeleteBook_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Controller_DeleteBook_Call) RunAndReturn(run func(context.Context, int) error) *Controller_DeleteBook_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetBooks provides a mock function with given fields: ctx, q
 func (_m *Controller) GetBooks(ctx context.Context, q model.ListQuery) (*model.ListResult[model.Book], error) {
 	ret := _m.Called(ctx, q)

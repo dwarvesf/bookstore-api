@@ -80,3 +80,12 @@ func (r *repo) Update(ctx db.Context, uID int, book model.UpdateBookRequest) (*m
 	_, err = u.Update(ctx, ctx.DB, boil.Infer())
 	return toBookModel(u), err
 }
+
+func (r *repo) IsExist(ctx db.Context, id int) (bool, error) {
+	return orm.BookExists(ctx, ctx.DB, id)
+}
+
+func (r *repo) Delete(ctx db.Context, id int) error {
+	_, err := orm.Books(qm.Where("id=?", id)).DeleteAll(ctx.Context, ctx.DB)
+	return err
+}

@@ -8,11 +8,13 @@ import (
 
 // Repo represent the book
 type Repo interface {
-	GetByID(ctx db.Context, uID int) (*model.Book, error)
+	GetByID(ctx db.Context, ID int) (*model.Book, error)
 	GetList(ctx db.Context, q model.ListQuery) (*model.ListResult[model.Book], error)
 	Count(ctx db.Context) (int64, error)
 	Create(ctx db.Context, book model.CreateBookRequest) (*model.Book, error)
-	Update(ctx db.Context, uID int, book model.UpdateBookRequest) (*model.Book, error)
+	Update(ctx db.Context, uD int, book model.UpdateBookRequest) (*model.Book, error)
+	IsExist(ctx db.Context, ID int) (bool, error)
+	Delete(ctx db.Context, ID int) error
 }
 
 // New return new book repo

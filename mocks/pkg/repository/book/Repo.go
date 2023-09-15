@@ -129,17 +129,60 @@ func (_c *Repo_Create_Call) RunAndReturn(run func(db.Context, model.CreateBookRe
 	return _c
 }
 
-// GetByID provides a mock function with given fields: ctx, uID
-func (_m *Repo) GetByID(ctx db.Context, uID int) (*model.Book, error) {
-	ret := _m.Called(ctx, uID)
+// Delete provides a mock function with given fields: ctx, ID
+func (_m *Repo) Delete(ctx db.Context, ID int) error {
+	ret := _m.Called(ctx, ID)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(db.Context, int) error); ok {
+		r0 = rf(ctx, ID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Repo_Delete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Delete'
+type Repo_Delete_Call struct {
+	*mock.Call
+}
+
+// Delete is a helper method to define mock.On call
+//   - ctx db.Context
+//   - ID int
+func (_e *Repo_Expecter) Delete(ctx interface{}, ID interface{}) *Repo_Delete_Call {
+	return &Repo_Delete_Call{Call: _e.mock.On("Delete", ctx, ID)}
+}
+
+func (_c *Repo_Delete_Call) Run(run func(ctx db.Context, ID int)) *Repo_Delete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(db.Context), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *Repo_Delete_Call) Return(_a0 error) *Repo_Delete_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Repo_Delete_Call) RunAndReturn(run func(db.Context, int) error) *Repo_Delete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetByID provides a mock function with given fields: ctx, ID
+func (_m *Repo) GetByID(ctx db.Context, ID int) (*model.Book, error) {
+	ret := _m.Called(ctx, ID)
 
 	var r0 *model.Book
 	var r1 error
 	if rf, ok := ret.Get(0).(func(db.Context, int) (*model.Book, error)); ok {
-		return rf(ctx, uID)
+		return rf(ctx, ID)
 	}
 	if rf, ok := ret.Get(0).(func(db.Context, int) *model.Book); ok {
-		r0 = rf(ctx, uID)
+		r0 = rf(ctx, ID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Book)
@@ -147,7 +190,7 @@ func (_m *Repo) GetByID(ctx db.Context, uID int) (*model.Book, error) {
 	}
 
 	if rf, ok := ret.Get(1).(func(db.Context, int) error); ok {
-		r1 = rf(ctx, uID)
+		r1 = rf(ctx, ID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -162,12 +205,12 @@ type Repo_GetByID_Call struct {
 
 // GetByID is a helper method to define mock.On call
 //   - ctx db.Context
-//   - uID int
-func (_e *Repo_Expecter) GetByID(ctx interface{}, uID interface{}) *Repo_GetByID_Call {
-	return &Repo_GetByID_Call{Call: _e.mock.On("GetByID", ctx, uID)}
+//   - ID int
+func (_e *Repo_Expecter) GetByID(ctx interface{}, ID interface{}) *Repo_GetByID_Call {
+	return &Repo_GetByID_Call{Call: _e.mock.On("GetByID", ctx, ID)}
 }
 
-func (_c *Repo_GetByID_Call) Run(run func(ctx db.Context, uID int)) *Repo_GetByID_Call {
+func (_c *Repo_GetByID_Call) Run(run func(ctx db.Context, ID int)) *Repo_GetByID_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(db.Context), args[1].(int))
 	})
@@ -239,17 +282,70 @@ func (_c *Repo_GetList_Call) RunAndReturn(run func(db.Context, model.ListQuery) 
 	return _c
 }
 
-// Update provides a mock function with given fields: ctx, uID, _a2
-func (_m *Repo) Update(ctx db.Context, uID int, _a2 model.UpdateBookRequest) (*model.Book, error) {
-	ret := _m.Called(ctx, uID, _a2)
+// IsExist provides a mock function with given fields: ctx, ID
+func (_m *Repo) IsExist(ctx db.Context, ID int) (bool, error) {
+	ret := _m.Called(ctx, ID)
+
+	var r0 bool
+	var r1 error
+	if rf, ok := ret.Get(0).(func(db.Context, int) (bool, error)); ok {
+		return rf(ctx, ID)
+	}
+	if rf, ok := ret.Get(0).(func(db.Context, int) bool); ok {
+		r0 = rf(ctx, ID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	if rf, ok := ret.Get(1).(func(db.Context, int) error); ok {
+		r1 = rf(ctx, ID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Repo_IsExist_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsExist'
+type Repo_IsExist_Call struct {
+	*mock.Call
+}
+
+// IsExist is a helper method to define mock.On call
+//   - ctx db.Context
+//   - ID int
+func (_e *Repo_Expecter) IsExist(ctx interface{}, ID interface{}) *Repo_IsExist_Call {
+	return &Repo_IsExist_Call{Call: _e.mock.On("IsExist", ctx, ID)}
+}
+
+func (_c *Repo_IsExist_Call) Run(run func(ctx db.Context, ID int)) *Repo_IsExist_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(db.Context), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *Repo_IsExist_Call) Return(_a0 bool, _a1 error) *Repo_IsExist_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *Repo_IsExist_Call) RunAndReturn(run func(db.Context, int) (bool, error)) *Repo_IsExist_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Update provides a mock function with given fields: ctx, uD, _a2
+func (_m *Repo) Update(ctx db.Context, uD int, _a2 model.UpdateBookRequest) (*model.Book, error) {
+	ret := _m.Called(ctx, uD, _a2)
 
 	var r0 *model.Book
 	var r1 error
 	if rf, ok := ret.Get(0).(func(db.Context, int, model.UpdateBookRequest) (*model.Book, error)); ok {
-		return rf(ctx, uID, _a2)
+		return rf(ctx, uD, _a2)
 	}
 	if rf, ok := ret.Get(0).(func(db.Context, int, model.UpdateBookRequest) *model.Book); ok {
-		r0 = rf(ctx, uID, _a2)
+		r0 = rf(ctx, uD, _a2)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Book)
@@ -257,7 +353,7 @@ func (_m *Repo) Update(ctx db.Context, uID int, _a2 model.UpdateBookRequest) (*m
 	}
 
 	if rf, ok := ret.Get(1).(func(db.Context, int, model.UpdateBookRequest) error); ok {
-		r1 = rf(ctx, uID, _a2)
+		r1 = rf(ctx, uD, _a2)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -272,13 +368,13 @@ type Repo_Update_Call struct {
 
 // Update is a helper method to define mock.On call
 //   - ctx db.Context
-//   - uID int
+//   - uD int
 //   - _a2 model.UpdateBookRequest
-func (_e *Repo_Expecter) Update(ctx interface{}, uID interface{}, _a2 interface{}) *Repo_Update_Call {
-	return &Repo_Update_Call{Call: _e.mock.On("Update", ctx, uID, _a2)}
+func (_e *Repo_Expecter) Update(ctx interface{}, uD interface{}, _a2 interface{}) *Repo_Update_Call {
+	return &Repo_Update_Call{Call: _e.mock.On("Update", ctx, uD, _a2)}
 }
 
-func (_c *Repo_Update_Call) Run(run func(ctx db.Context, uID int, _a2 model.UpdateBookRequest)) *Repo_Update_Call {
+func (_c *Repo_Update_Call) Run(run func(ctx db.Context, uD int, _a2 model.UpdateBookRequest)) *Repo_Update_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(db.Context), args[1].(int), args[2].(model.UpdateBookRequest))
 	})
