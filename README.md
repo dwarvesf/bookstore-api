@@ -37,7 +37,7 @@ Briefly describe your project, its purpose, and its main features.
 1. Clone the repository:
 
    ```bash
-   git clone git@github.com:dwarvesf/df-bookstore-srv.git new-project
+   git clone git@github.com:dwarvesf/bookstore-api.git new-project
    cd new-project
    ```
 

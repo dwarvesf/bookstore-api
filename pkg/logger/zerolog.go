@@ -3,7 +3,7 @@ package logger
 import (
 	"fmt"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
 	"github.com/getsentry/sentry-go"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

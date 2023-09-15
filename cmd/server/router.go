@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/dwarvesf/df-bookstore-srv/docs"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/v1/portal"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/middleware"
+	"github.com/dwarvesf/bookstore-api/docs"
+	"github.com/dwarvesf/bookstore-api/pkg/handler"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/portal"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/middleware"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files

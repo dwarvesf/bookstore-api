@@ -3,35 +3,35 @@ version: '3.8'
 services:
   db:
     image: postgres:15
-    container_name: df-bookstore-srv-db
+    container_name: bookstore-api-db
     environment:
-      POSTGRES_DB: df-bookstore-srv-db
+      POSTGRES_DB: bookstore-api-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5442:5432"
     networks:
-      - df-bookstore-srv-network
+      - bookstore-api-network
     volumes:
-      - df-bookstore-srv-data:/var/lib/postgresql/data
+      - bookstore-api-data:/var/lib/postgresql/data
 
   db-test:
     image: postgres:15
-    container_name: df-bookstore-srv-db-test
+    container_name: bookstore-api-db-test
     environment:
-      POSTGRES_DB: df-bookstore-srv-db-test
+      POSTGRES_DB: bookstore-api-db-test
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"  # Map to a different port to avoid conflicts with dev DB
+      - "5443:5432"  # Map to a different port to avoid conflicts with dev DB
     networks:
-      - df-bookstore-srv-network
+      - bookstore-api-network
     volumes:
-      - df-bookstore-srv-data-test:/var/lib/postgresql/data
+      - bookstore-api-data-test:/var/lib/postgresql/data
 
 networks:
-  df-bookstore-srv-network:
+  bookstore-api-network:
 
 volumes:
-  df-bookstore-srv-data:
-  df-bookstore-srv-data-test:
+  bookstore-api-data:
+  bookstore-api-data-test:

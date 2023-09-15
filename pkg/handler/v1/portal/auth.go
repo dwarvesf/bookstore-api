@@ -3,9 +3,9 @@ package portal
 import (
 	"net/http"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/v1/view"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/util"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/view"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/util"
 	"github.com/gin-gonic/gin"
 )
 

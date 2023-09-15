@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
 	"github.com/getsentry/sentry-go"
 	sentryotel "github.com/getsentry/sentry-go/otel"
 	"go.opentelemetry.io/otel"

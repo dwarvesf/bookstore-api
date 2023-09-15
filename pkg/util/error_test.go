@@ -5,9 +5,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/testutil"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/v1/view"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/testutil"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/view"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )

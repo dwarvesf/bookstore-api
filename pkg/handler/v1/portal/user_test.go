@@ -5,12 +5,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mocks "github.com/dwarvesf/df-bookstore-srv/mocks/pkg/controller/user"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/testutil"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/v1/view"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	mocks "github.com/dwarvesf/bookstore-api/mocks/pkg/controller/user"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/testutil"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/view"
+	"github.com/dwarvesf/bookstore-api/pkg/logger"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

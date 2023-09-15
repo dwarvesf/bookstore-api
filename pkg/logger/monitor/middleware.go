@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger"
+	"github.com/dwarvesf/bookstore-api/pkg/logger"
 	"github.com/getsentry/sentry-go"
 	"github.com/gin-gonic/gin"
 )

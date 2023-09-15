@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
 	"github.com/gin-gonic/gin"
 )
 

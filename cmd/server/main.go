@@ -9,17 +9,17 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/service"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/logger"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/repository"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/service"
 )
 
-// @title           BOOKSTORE SERVICE
+// @title           BOOKSTORE API
 // @version         v0.0.1
-// @description     This is api document for BOOKSTORE SERVICE project.
+// @description     This is api document for BOOKSTORE API project.
 // @termsOfService  http://swagger.io/terms/
 
 // @contact.name   Datpv

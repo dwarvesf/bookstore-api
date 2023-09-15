@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mock "github.com/dwarvesf/df-bookstore-srv/mocks/pkg/logger"
+	mock "github.com/dwarvesf/bookstore-api/mocks/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )

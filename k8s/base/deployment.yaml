@@ -12,7 +12,7 @@ spec:
       containers:
         - name: api
           imagePullPolicy: Always
-          image: df-bookstore-srv
+          image: bookstore-api
           ports:
             - containerPort: 8080
               name: http
@@ -25,7 +25,7 @@ spec:
               memory: 256Mi
           envFrom:
             - secretRef:
-                name: df-bookstore-srv
+                name: bookstore-api
           readinessProbe:
             failureThreshold: 5
             httpGet:

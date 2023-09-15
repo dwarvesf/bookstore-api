@@ -1,9 +1,9 @@
 package user
 
 import (
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/orm"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/orm"
 )
 
 // Repo represent the user

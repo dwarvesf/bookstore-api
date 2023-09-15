@@ -73,7 +73,7 @@ func DefaultConfigLoaders() []Loader {
 // LoadConfig load config from loader list
 func LoadConfig(loaders []Loader) *Config {
 	v := viper.New()
-	v.SetDefault("APP", "df-bookstore-srv")
+	v.SetDefault("APP", "bookstore-api")
 	v.SetDefault("PORT", "3000")
 	v.SetDefault("ENV", "prod")
 	v.SetDefault("ALLOWED_ORIGINS", "*")
@@ -95,10 +95,10 @@ func LoadConfig(loaders []Loader) *Config {
 // LoadTestConfig load test config
 func LoadTestConfig() Config {
 	return Config{
-		App:         "df-bookstore-srv",
+		App:         "bookstore-api",
 		Env:         "test",
 		Version:     serverVersion,
-		DatabaseURL: "postgres://postgres:postgres@localhost:5433/df-bookstore-srv-db-test?sslmode=disable",
+		DatabaseURL: "postgres://postgres:postgres@localhost:5443/bookstore-api-db-test?sslmode=disable",
 		Port:        "4000",
 	}
 }

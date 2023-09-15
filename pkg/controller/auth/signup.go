@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
 )
 
 func (c impl) Signup(ctx context.Context, req model.SignupRequest) (err error) {

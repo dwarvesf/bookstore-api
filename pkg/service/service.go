@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
 )
 
 // Service for app

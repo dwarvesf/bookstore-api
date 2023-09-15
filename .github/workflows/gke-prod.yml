@@ -13,8 +13,8 @@ env:
   GIT_EMAIL: quanglm.ops@gmail.com
   REGISTRY_HOSTNAME: gcr.io
   GKE_PROJECT: <gcp-project-id>
-  APP: df-bookstore-srv
-  IMAGE: df-bookstore-srv
+  APP: bookstore-api
+  IMAGE: bookstore-api
   
 
 jobs:

@@ -12,7 +12,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: sql-migrate
-          image: df-bookstore-srv
+          image: bookstore-api
           command:
             - /bin/sh
             - -c
@@ -28,4 +28,4 @@ spec:
               memory: 128Mi
           envFrom:
             - secretRef:
-                name: df-bookstore-srv
+                name: bookstore-api

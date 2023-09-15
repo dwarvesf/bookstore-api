@@ -16,10 +16,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ../base
-namespace: df-bookstore-srv-dev
+namespace: bookstore-api-dev
 patches:
 - path: deployment.yaml
 images:
-- name: df-bookstore-srv
-  newName: df-bookstore-srv
+- name: bookstore-api
+  newName: bookstore-api
   newTag: v0.0.1

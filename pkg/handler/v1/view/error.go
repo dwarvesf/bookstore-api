@@ -3,7 +3,7 @@ package view
 import (
 	"net/http"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 )
 
 // ErrorResponse error response

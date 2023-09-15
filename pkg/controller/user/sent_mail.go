@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
 )
 
 const pageSize = 10

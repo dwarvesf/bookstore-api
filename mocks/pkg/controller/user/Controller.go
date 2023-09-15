@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	model "github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	model "github.com/dwarvesf/bookstore-api/pkg/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

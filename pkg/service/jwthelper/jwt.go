@@ -1,7 +1,7 @@
 package jwthelper
 
 import (
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/golang-jwt/jwt/v5"
 )
 

@@ -1,13 +1,13 @@
 package portal
 
 import (
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/controller/auth"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/controller/user"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/service"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/controller/auth"
+	"github.com/dwarvesf/bookstore-api/pkg/controller/user"
+	"github.com/dwarvesf/bookstore-api/pkg/logger"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/repository"
+	"github.com/dwarvesf/bookstore-api/pkg/service"
 )
 
 // Handler for app

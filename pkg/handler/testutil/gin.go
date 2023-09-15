@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 
-	mw "github.com/dwarvesf/df-bookstore-srv/pkg/middleware"
+	mw "github.com/dwarvesf/bookstore-api/pkg/middleware"
 	"github.com/gin-gonic/gin"
 )
 

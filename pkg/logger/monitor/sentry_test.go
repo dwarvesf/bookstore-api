@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
 )
 
 func TestNewSentry(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/pkg/errors"

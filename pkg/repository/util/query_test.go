@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 )
 
 func TestCalculatePagination(t *testing.T) {

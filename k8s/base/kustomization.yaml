@@ -20,9 +20,9 @@ resources:
 - ../base/service.yaml
 # add the new jobs declaration here
 - ../base/jobs/sql-migrate.yaml
-namePrefix: df-bookstore-srv- # <--- this prefix is app_name
+namePrefix: bookstore-api- # <--- this prefix is app_name
 images:
-- name: df-bookstore-srv # <--- this format should be {app_name}
+- name: bookstore-api # <--- this format should be {app_name}
 commonLabels:
   app: api
 commonAnnotations:

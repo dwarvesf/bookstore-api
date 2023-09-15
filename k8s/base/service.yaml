@@ -8,4 +8,4 @@ spec:
       port: 80
       targetPort: http
   selector:
-    app: df-bookstore-srv
+    app: bookstore-api

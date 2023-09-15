@@ -15,7 +15,7 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: df-bookstore-srv-db-test
+          POSTGRES_DB: bookstore-api-db-test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -23,7 +23,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5433:5432   
+          - 5443:5432   
 
     name: CI testing
     steps:

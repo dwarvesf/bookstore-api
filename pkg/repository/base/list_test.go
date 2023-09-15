@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository/db"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )

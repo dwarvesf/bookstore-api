@@ -3,10 +3,10 @@ package user
 import (
 	"context"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository"
 )
 
 // Controller auth controller

@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/dwarvesf/df-bookstore-srv/pkg/repository/user"
+import "github.com/dwarvesf/bookstore-api/pkg/repository/user"
 
 // Repo represent the repository
 type Repo struct {

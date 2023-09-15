@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/handler/v1/view"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/view"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/gin-gonic/gin"
 )
 

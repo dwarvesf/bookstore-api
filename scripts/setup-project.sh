@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Define the old values
-old_package_name="github.com/dwarvesf/df-bookstore-srv"
-old_app_name="df-bookstore-srv"
+old_package_name="github.com/dwarvesf/bookstore-api"
+old_app_name="bookstore-api"
 old_contact_name="Datpv"
 old_contact_url="https://d.foundation"
 old_contact_email="datphammail@gmail.com"
-old_title="BOOKSTORE SERVICE"
-old_description="This is api document for BOOKSTORE SERVICE project."
+old_title="BOOKSTORE API"
+old_description="This is api document for BOOKSTORE API project."
 old_version="v0.0.1"
 
 # Specify the file to edit

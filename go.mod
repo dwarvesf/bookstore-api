@@ -1,4 +1,4 @@
-module github.com/dwarvesf/df-bookstore-srv
+module github.com/dwarvesf/bookstore-api
 
 go 1.20
 

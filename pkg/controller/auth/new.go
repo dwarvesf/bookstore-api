@@ -3,12 +3,12 @@ package auth
 import (
 	"context"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/config"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/logger/monitor"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/repository"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/service/jwthelper"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/service/passwordhelper"
+	"github.com/dwarvesf/bookstore-api/pkg/config"
+	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/repository"
+	"github.com/dwarvesf/bookstore-api/pkg/service/jwthelper"
+	"github.com/dwarvesf/bookstore-api/pkg/service/passwordhelper"
 )
 
 // Controller auth controller

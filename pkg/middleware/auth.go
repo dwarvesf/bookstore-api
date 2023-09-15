@@ -4,8 +4,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/dwarvesf/df-bookstore-srv/pkg/model"
-	"github.com/dwarvesf/df-bookstore-srv/pkg/service/jwthelper"
+	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/dwarvesf/bookstore-api/pkg/service/jwthelper"
 	"github.com/gin-gonic/gin"
 )
 
