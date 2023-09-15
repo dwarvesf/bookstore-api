@@ -176,3 +176,114 @@ func TestHandler_GetBook(t *testing.T) {
 		})
 	}
 }
+
+func TestHandler_CreateBook(t *testing.T) {
+	type mocked struct {
+		expCreateBook bool
+		books         *model.Book
+		createBookErr error
+	}
+
+	type args struct {
+		req view.CreateBookRequest
+	}
+
+	type expected struct {
+		Status  int
+		Body    *view.Book
+		WantErr bool
+		Err     string
+	}
+	tests := map[string]struct {
+		mocked   mocked
+		args     args
+		expected expected
+	}{
+		"success": {
+			mocked: mocked{
+				expCreateBook: true,
+				books: &model.Book{
+					ID:     1,
+					Name:   "book1",
+					Author: "author1",
+					Topic: &model.Topic{
+						ID:   1,
+						Name: "topic1",
+						Code: "code1",
+					},
+				},
+			},
+			args: args{
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status: 200,
+				Body: &view.Book{
+					ID:     1,
+					Name:   "book1",
+					Author: "author1",
+					Topic: &view.Topic{
+						ID:   1,
+						Name: "topic1",
+						Code: "code1",
+					},
+				},
+			},
+		},
+		"failed": {
+			mocked: mocked{
+				expCreateBook: true,
+				createBookErr: errors.New("failed to create book"),
+			},
+			args: args{
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status:  500,
+				WantErr: true,
+				Err:     "INTERNAL_ERROR",
+			},
+		},
+	}
+	for name, tt := range tests {
+		w := httptest.NewRecorder()
+		cfg := config.LoadTestConfig()
+
+		ginCtx := testutil.NewRequest(w, testutil.MethodGet, nil, nil, nil, tt.args.req)
+
+		var (
+			ctrlMock = mocks.NewController(t)
+		)
+
+		if tt.mocked.expCreateBook {
+			ctrlMock.EXPECT().CreateBook(mock.Anything, mock.Anything).Return(tt.mocked.books, tt.mocked.createBookErr)
+		}
+		t.Run(name, func(t *testing.T) {
+			h := Handler{
+				log:      logger.NewLogger(),
+				cfg:      cfg,
+				bookCtrl: ctrlMock,
+				monitor:  monitor.TestMonitor(),
+			}
+			h.CreateBook(ginCtx)
+
+			assert.Equal(t, tt.expected.Status, w.Code)
+			resBody := w.Body.String()
+			body, err := json.Marshal(tt.expected.Body)
+			assert.Nil(t, err)
+			if !tt.expected.WantErr {
+				assert.Equal(t, string(body), resBody)
+			} else {
+				assert.Contains(t, resBody, tt.expected.Err)
+			}
+		})
+	}
+}

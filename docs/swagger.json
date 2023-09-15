@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is api document for BOOKSTORE SERVICE project.",
-        "title": "BOOKSTORE SERVICE",
+        "description": "This is api document for BOOKSTORE API project.",
+        "title": "BOOKSTORE API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Datpv",
@@ -176,6 +176,61 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/GetBooksResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create new book",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Create new book",
+                "parameters": [
+                    {
+                        "description": "Create Book Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateBookRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
                         }
                     },
                     "400": {
@@ -394,6 +449,23 @@
                 },
                 "topic": {
                     "$ref": "#/definitions/Topic"
+                }
+            }
+        },
+        "CreateBookRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "topic_id": {
+                    "type": "integer"
                 }
             }
         },

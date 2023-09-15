@@ -24,6 +24,17 @@ definitions:
       topic:
         $ref: '#/definitions/Topic'
     type: object
+  CreateBookRequest:
+    properties:
+      author:
+        type: string
+      name:
+        type: string
+      topic_id:
+        type: integer
+    required:
+    - name
+    type: object
   ErrorDetail:
     properties:
       error:
@@ -186,12 +197,12 @@ info:
     email: datphammail@gmail.com
     name: Datpv
     url: https://d.foundation
-  description: This is api document for BOOKSTORE SERVICE project.
+  description: This is api document for BOOKSTORE API project.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: BOOKSTORE SERVICE
+  title: BOOKSTORE API
   version: v0.0.1
 paths:
   /portal/auth/login:
@@ -310,6 +321,41 @@ paths:
       security:
       - BearerAuth: []
       summary: Get list of books
+      tags:
+      - Book
+    post:
+      consumes:
+      - application/json
+      description: Create new book
+      parameters:
+      - description: Create Book Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create new book
       tags:
       - Book
   /portal/me:

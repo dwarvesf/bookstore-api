@@ -37,6 +37,13 @@ var (
 		Code:    "EMAIL_EXISTED",
 		Message: "email existed",
 	}
+
+	// ErrTopicNotFound is the error for topic not found
+	ErrTopicNotFound = Error{
+		Status:  http.StatusNotFound,
+		Code:    "TOPIC_NOT_FOUND",
+		Message: "topic not found",
+	}
 )
 
 // Error in server

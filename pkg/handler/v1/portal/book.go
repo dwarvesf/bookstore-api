@@ -85,3 +85,40 @@ func toBookView(b *model.Book) *view.Book {
 		Topic:  toTopicView(b.Topic),
 	}
 }
+
+// CreateBook godoc
+// @Summary Create new book
+// @Description Create new book
+// @Tags Book
+// @Accept  json
+// @Produce  json
+// @Security BearerAuth
+// @Param body body CreateBookRequest true "Create Book Request"
+// @Success 200 {object} Book
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /portal/books [post]
+func (h Handler) CreateBook(c *gin.Context) {
+	const spanName = "CreateBook"
+	newCtx, span := h.monitor.Start(c.Request.Context(), spanName)
+	defer span.End()
+
+	var req view.CreateBookRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	rs, err := h.bookCtrl.CreateBook(newCtx, model.CreateBookRequest{
+		Name:    req.Name,
+		Author:  req.Author,
+		TopicID: req.TopicID,
+	})
+	if err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, toBookView(rs))
+}

@@ -86,6 +86,11 @@ func authenticatedHandler(r *gin.Engine, a App) {
 		portalGroup.PUT("/users", portalHandler.UpdateUser)
 		portalGroup.PUT("/users/password", portalHandler.UpdatePassword)
 
-		portalGroup.GET("/books", portalHandler.GetBooks)
+		bookGroup := portalGroup.Group("/books")
+		{
+			bookGroup.GET("/", portalHandler.GetBooks)
+			bookGroup.POST("/", portalHandler.CreateBook)
+		}
+
 	}
 }

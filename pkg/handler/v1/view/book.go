@@ -29,3 +29,10 @@ type GetBooksResponse struct {
 	Metadata Metadata `json:"metadata"`
 	Data     []*Book  `json:"data"`
 } // @name GetBooksResponse
+
+// CreateBookRequest represent the create book request
+type CreateBookRequest struct {
+	Name    string `json:"name" validate:"required"`
+	Author  string `json:"author"`
+	TopicID int    `json:"topic_id"`
+} // @name CreateBookRequest
