@@ -94,5 +94,7 @@ func authenticatedHandler(r *gin.Engine, a App) {
 			bookGroup.PUT("/:id", portalHandler.UpdateBook)
 		}
 
+		portalGroup.GET("/topics", portalHandler.GetTopics)
+
 	}
 }

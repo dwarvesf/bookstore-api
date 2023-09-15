@@ -71,6 +71,13 @@ definitions:
       metadata:
         $ref: '#/definitions/Metadata'
     type: object
+  GetTopicsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/Topic'
+        type: array
+    type: object
   LoginRequest:
     properties:
       email:
@@ -473,6 +480,35 @@ paths:
       summary: Retrieve my information
       tags:
       - User
+  /portal/topics:
+    get:
+      consumes:
+      - application/json
+      description: Get all topics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetTopicsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all topics
+      tags:
+      - Topic
   /portal/users:
     put:
       consumes:

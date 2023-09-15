@@ -9,6 +9,7 @@ import (
 // Repo represent the book
 type Repo interface {
 	IsExist(ctx db.Context, id int) (bool, error)
+	GetAll(ctx db.Context) ([]*model.Topic, error)
 }
 
 // New return new book repo

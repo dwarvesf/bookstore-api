@@ -23,7 +23,7 @@ type impl struct {
 	monitor monitor.Tracer
 }
 
-// NewBookController new auth controller
+// NewBookController new book controller
 func NewBookController(cfg config.Config, r *repository.Repo, monitor monitor.Tracer) Controller {
 	return &impl{
 		repo:    r,
