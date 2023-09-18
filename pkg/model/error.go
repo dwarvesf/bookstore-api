@@ -57,6 +57,20 @@ var (
 		Code:    "USER_NOT_FOUND",
 		Message: "user not found",
 	}
+
+	// ErrInvalidBookID is the error for invalid book id
+	ErrInvalidBookID = Error{
+		Status:  http.StatusBadRequest,
+		Code:    "INVALID_BOOK_ID",
+		Message: "invalid book id",
+	}
+
+	// ErrBookNotFound is the error for book not found
+	ErrBookNotFound = Error{
+		Status:  http.StatusNotFound,
+		Code:    "BOOK_NOT_FOUND",
+		Message: "book not found",
+	}
 )
 
 // Error in server

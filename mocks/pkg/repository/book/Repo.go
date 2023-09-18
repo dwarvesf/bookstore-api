@@ -227,6 +227,62 @@ func (_c *Repo_GetByID_Call) RunAndReturn(run func(db.Context, int) (*model.Book
 	return _c
 }
 
+// GetByUserAndID provides a mock function with given fields: ctx, uID, ID
+func (_m *Repo) GetByUserAndID(ctx db.Context, uID int, ID int) (*model.Book, error) {
+	ret := _m.Called(ctx, uID, ID)
+
+	var r0 *model.Book
+	var r1 error
+	if rf, ok := ret.Get(0).(func(db.Context, int, int) (*model.Book, error)); ok {
+		return rf(ctx, uID, ID)
+	}
+	if rf, ok := ret.Get(0).(func(db.Context, int, int) *model.Book); ok {
+		r0 = rf(ctx, uID, ID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Book)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(db.Context, int, int) error); ok {
+		r1 = rf(ctx, uID, ID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Repo_GetByUserAndID_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetByUserAndID'
+type Repo_GetByUserAndID_Call struct {
+	*mock.Call
+}
+
+// GetByUserAndID is a helper method to define mock.On call
+//   - ctx db.Context
+//   - uID int
+//   - ID int
+func (_e *Repo_Expecter) GetByUserAndID(ctx interface{}, uID interface{}, ID interface{}) *Repo_GetByUserAndID_Call {
+	return &Repo_GetByUserAndID_Call{Call: _e.mock.On("GetByUserAndID", ctx, uID, ID)}
+}
+
+func (_c *Repo_GetByUserAndID_Call) Run(run func(ctx db.Context, uID int, ID int)) *Repo_GetByUserAndID_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(db.Context), args[1].(int), args[2].(int))
+	})
+	return _c
+}
+
+func (_c *Repo_GetByUserAndID_Call) Return(_a0 *model.Book, _a1 error) *Repo_GetByUserAndID_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *Repo_GetByUserAndID_Call) RunAndReturn(run func(db.Context, int, int) (*model.Book, error)) *Repo_GetByUserAndID_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetList provides a mock function with given fields: ctx, q, topicID, uID
 func (_m *Repo) GetList(ctx db.Context, q model.ListQuery, topicID int, uID int) (*model.ListResult[model.Book], error) {
 	ret := _m.Called(ctx, q, topicID, uID)

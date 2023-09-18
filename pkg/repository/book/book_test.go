@@ -84,6 +84,81 @@ func Test_repo_GetByID(t *testing.T) {
 	})
 }
 
+func Test_repo_GetByUserAndID(t *testing.T) {
+	db.WithTestingDB(t, func(ctx db.Context) {
+		user := &orm.User{
+			Email:          "test@gmail.com",
+			HashedPassword: "password1",
+			Name:           "name1",
+		}
+		err := user.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		topic := &orm.Topic{
+			Name: "topic1",
+			Code: "code1",
+		}
+		err = topic.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		book := &orm.Book{
+			Name:    "book1",
+			Author:  null.String{String: "author1", Valid: true},
+			TopicID: null.Int{Int: topic.ID, Valid: true},
+			UserID:  user.ID,
+		}
+		err = book.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		type args struct {
+			uID int
+			id  int
+		}
+		tests := map[string]struct {
+			args    args
+			want    *model.Book
+			wantErr bool
+		}{
+			"success": {
+				args: args{
+					id:  book.ID,
+					uID: user.ID,
+				},
+				want: &model.Book{
+					ID:     book.ID,
+					Name:   "book1",
+					Author: "author1",
+					Topic: &model.Topic{
+						ID:   topic.ID,
+						Name: "topic1",
+						Code: "code1",
+					},
+				},
+				wantErr: false,
+			},
+			"not found": {
+				args: args{
+					id:  book.ID + 1,
+					uID: user.ID,
+				},
+				want:    nil,
+				wantErr: true,
+			},
+		}
+		for name, tt := range tests {
+			t.Run(name, func(t *testing.T) {
+				r := &repo{}
+				got, err := r.GetByUserAndID(ctx, tt.args.uID, tt.args.id)
+				if (err != nil) != tt.wantErr {
+					t.Errorf("repo.GetByUserAndID() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				require.Equal(t, tt.want, got)
+			})
+		}
+	})
+}
+
 func Test_repo_Count(t *testing.T) {
 	db.WithTestingDB(t, func(ctx db.Context) {
 		user := &orm.User{

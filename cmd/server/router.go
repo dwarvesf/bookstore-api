@@ -103,5 +103,6 @@ func authenticatedHandler(r *gin.Engine, a App) {
 	{
 		bookGroup.GET("/", portalHandler.GetBooks)
 		bookGroup.POST("/", portalHandler.CreateBook)
+		bookGroup.PUT("/:id", portalHandler.UpdateBook)
 	}
 }

@@ -2,6 +2,7 @@ package portal
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/dwarvesf/bookstore-api/pkg/handler/v1/view"
 	"github.com/dwarvesf/bookstore-api/pkg/model"
@@ -21,7 +22,7 @@ import (
 // @Param pageSize query int false "Page Size"
 // @Param sort query string false "Sort"
 // @Param query query string false "Query"
-// @Param topicID query int false "Topic ID"
+// @Param topicId query int false "Topic ID"
 // @Success 200 {object} BooksResponse
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
@@ -91,7 +92,7 @@ func toBookView(b *model.Book) *view.Book {
 // @Produce  json
 // @Security BearerAuth
 // @Param body body CreateBookRequest true "Create Book Request"
-// @Success 200 {object} Book
+// @Success 200 {object} BookResponse
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -117,5 +118,51 @@ func (h Handler) CreateBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toBookView(rs))
+	c.JSON(http.StatusOK, view.BookResponse{Data: *toBookView(rs)})
+}
+
+// UpdateBook godoc
+// @Summary Update book
+// @Description Update book
+// @Tags Book
+// @Accept  json
+// @Produce  json
+// @Security BearerAuth
+// @Param id path int true "Book ID"
+// @Param body body UpdateBookRequest true "Update Book Request"
+// @Success 200 {object} BookResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /books/{id} [put]
+func (h Handler) UpdateBook(c *gin.Context) {
+	const spanName = "UpdateBook"
+	newCtx, span := h.monitor.Start(c.Request.Context(), spanName)
+	defer span.End()
+
+	bookID := c.Param("id")
+	ID, err := strconv.Atoi(bookID)
+	if err != nil {
+		util.HandleError(c, model.ErrInvalidBookID)
+		return
+	}
+
+	var req view.UpdateBookRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	res, err := h.bookCtrl.UpdateBook(newCtx, model.UpdateBookRequest{
+		ID:      ID,
+		Name:    req.Name,
+		Author:  req.Author,
+		TopicID: req.TopicID,
+	})
+	if err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, view.BookResponse{Data: *toBookView(res)})
 }

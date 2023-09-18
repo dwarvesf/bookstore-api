@@ -9,6 +9,7 @@ import (
 // Repo represent the book
 type Repo interface {
 	GetByID(ctx db.Context, ID int) (*model.Book, error)
+	GetByUserAndID(ctx db.Context, uID int, ID int) (*model.Book, error)
 	GetList(ctx db.Context, q model.ListQuery, topicID, uID int) (*model.ListResult[model.Book], error)
 	Count(ctx db.Context) (int64, error)
 	Create(ctx db.Context, book model.CreateBookRequest) (*model.Book, error)
