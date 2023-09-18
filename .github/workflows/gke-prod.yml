@@ -1,0 +1,71 @@
+name: Build and Deploy to GKE Prod
+
+on:
+  release:
+    types: [released]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  K8S_ENVIRONMENT: prod
+  GIT_USER: lmquang
+  GIT_EMAIL: quanglm.ops@gmail.com
+  REGISTRY_HOSTNAME: gcr.io
+  GKE_PROJECT: <gcp-project-id>
+  APP: bookstore-api
+  IMAGE: bookstore-api
+  
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Setup gcloud CLI
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+
+      # Setup Docker
+      - name: Setup Docker
+        run: |
+          gcloud auth configure-docker gcr.io
+      # Build & Push the Docker image
+      - name: Build & Push
+        run: |
+          docker build -t $REGISTRY_HOSTNAME/$GKE_PROJECT/$APP/$IMAGE:${GITHUB_REF_NAME} .   
+          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$APP/$IMAGE:${GITHUB_REF_NAME}
+
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: "5.1.1"
+          github-token: ${{ secrets.GH_PAT }}
+      - name: Generate kustomize resources
+        run: |
+          cd ./k8s/$K8S_ENVIRONMENT
+          kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$APP/$IMAGE=$REGISTRY_HOSTNAME/$GKE_PROJECT/$APP/$IMAGE:${GITHUB_SHA}
+          kustomize build > /tmp/resources.yaml
+
+      # Make sure the infrastructure repo is set up
+      - name: Checkout dwarvesf/infrastructure
+        uses: actions/checkout@master
+        with:
+          repository: dwarvesf/infrastructure
+          token: ${{ secrets.GH_PAT }}
+          path: ./infrastructure
+          ref: main
+      - name: Update app version
+        run: |
+          cd ./infrastructure/$APP/$K8S_ENVIRONMENT
+          git config user.name $GIT_USER
+          git config user.email $GIT_EMAIL
+          mv /tmp/resources.yaml .
+          git commit -am "[skip ci] ${APP} ${K8S_ENVIRONMENT} image update"
+          git push origin main
