@@ -1,6 +1,6 @@
 development:
   dialect: postgres
-  datasource: user=postgres password=postgresv port=5442 dbname=bookstore-api-db sslmode=disable
+  datasource: user=postgres password=postgres port=5442 dbname=bookstore-api-db sslmode=disable
   
 dev:
   dialect: postgres
