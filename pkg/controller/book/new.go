@@ -1,4 +1,4 @@
-package user
+package book
 
 import (
 	"context"
@@ -11,9 +11,7 @@ import (
 
 // Controller auth controller
 type Controller interface {
-	Me(ctx context.Context) (*model.User, error)
-	UpdateUser(ctx context.Context, user model.UpdateUserRequest) (*model.User, error)
-	UpdatePassword(ctx context.Context, user model.UpdatePasswordRequest) error
+	GetBooks(ctx context.Context, q model.ListQuery, topicID int) (*model.ListResult[model.Book], error)
 }
 
 type impl struct {
@@ -22,8 +20,8 @@ type impl struct {
 	monitor monitor.Tracer
 }
 
-// NewUserController new auth controller
-func NewUserController(cfg config.Config, r *repository.Repo, monitor monitor.Tracer) Controller {
+// NewBookController new book controller
+func NewBookController(cfg config.Config, r *repository.Repo, monitor monitor.Tracer) Controller {
 	return &impl{
 		repo:    r,
 		cfg:     cfg,

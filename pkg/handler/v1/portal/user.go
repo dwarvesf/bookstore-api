@@ -21,7 +21,7 @@ import (
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
-// @Router /portal/me [get]
+// @Router /me [get]
 func (h Handler) Me(c *gin.Context) {
 	const spanName = "meHandler"
 	ctx, span := h.monitor.Start(c.Request.Context(), spanName)
@@ -54,7 +54,7 @@ func (h Handler) Me(c *gin.Context) {
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
-// @Router /portal/users [put]
+// @Router /users [put]
 func (h Handler) UpdateUser(c *gin.Context) {
 	const spanName = "updateUserHandler"
 	ctx, span := h.monitor.Start(c.Request.Context(), spanName)
@@ -101,7 +101,7 @@ func (h Handler) UpdateUser(c *gin.Context) {
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
-// @Router /portal/users/password [put]
+// @Router /users/password [put]
 func (h Handler) UpdatePassword(c *gin.Context) {
 	const spanName = "updatePasswordHandler"
 	ctx, span := h.monitor.Start(c.Request.Context(), spanName)

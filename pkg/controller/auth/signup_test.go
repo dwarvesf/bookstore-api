@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"database/sql"
 	"net/http/httptest"
 	"testing"
 
@@ -48,7 +47,7 @@ func Test_impl_Signup(t *testing.T) {
 				hashCalled:          true,
 				hash:                "hash",
 				expGetUserCalled:    true,
-				getUserErr:          sql.ErrNoRows,
+				getUserErr:          model.ErrNotFound,
 				expCreateUserCalled: true,
 				createUser: &model.User{
 					Email:          "admin@d.foundation",

@@ -69,11 +69,8 @@ func publicHandler(r *gin.Engine, a App) {
 
 	// api/v1
 	apiV1 := r.Group("/api/v1")
-	portalGroup := apiV1.Group("/portal")
-	{
-		portalGroup.POST("/auth/login", portalHandler.Login)
-		portalGroup.POST("/auth/signup", portalHandler.Signup)
-	}
+	apiV1.POST("/auth/login", portalHandler.Login)
+	apiV1.POST("/auth/signup", portalHandler.Signup)
 
 	apiV1.GET("/sse", realtime.SSEHeadersMiddleware(), func(c *gin.Context) {
 		u, err := a.realtimeServer.HandleConnection(c)
@@ -97,11 +94,13 @@ func authenticatedHandler(r *gin.Engine, a App) {
 	authMw := middleware.NewAuthMiddleware(jwthelper.NewHelper(a.cfg.SecretKey))
 	apiV1 := r.Group("/api/v1")
 	apiV1.Use(authMw.WithAuth)
-	portalGroup := apiV1.Group("/portal")
+	portalHandler := portal.New(*a.cfg, a.l, a.repo, a.service, a.monitor)
+	apiV1.GET("/me", portalHandler.Me)
+	apiV1.PUT("/users", portalHandler.UpdateUser)
+	apiV1.PUT("/users/password", portalHandler.UpdatePassword)
+
+	bookGroup := apiV1.Group("/books")
 	{
-		portalHandler := portal.New(*a.cfg, a.l, a.repo, a.service, a.monitor)
-		portalGroup.GET("/me", portalHandler.Me)
-		portalGroup.PUT("/users", portalHandler.UpdateUser)
-		portalGroup.PUT("/users/password", portalHandler.UpdatePassword)
+		bookGroup.GET("/", portalHandler.GetBooks)
 	}
 }

@@ -13,6 +13,26 @@ definitions:
     - email
     - id
     type: object
+  Book:
+    properties:
+      author:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      topic:
+        $ref: '#/definitions/Topic'
+    type: object
+  BooksResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/Book'
+        type: array
+      metadata:
+        $ref: '#/definitions/Metadata'
+    type: object
   ErrorDetail:
     properties:
       error:
@@ -82,6 +102,26 @@ definitions:
       data:
         $ref: '#/definitions/Message'
     type: object
+  Metadata:
+    properties:
+      hasNext:
+        type: boolean
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      sort:
+        type: integer
+      totalPages:
+        type: integer
+      totalRecords:
+        type: integer
+    required:
+    - page
+    - pageSize
+    - totalPages
+    - totalRecords
+    type: object
   SignupRequest:
     properties:
       avatar:
@@ -98,6 +138,15 @@ definitions:
     - email
     - fullName
     - password
+    type: object
+  Topic:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
     type: object
   UpdatePasswordRequest:
     properties:
@@ -150,7 +199,7 @@ info:
   title: BOOKSTORE API DOCUMENT
   version: v0.0.1
 paths:
-  /portal/auth/login:
+  /auth/login:
     post:
       consumes:
       - application/json
@@ -185,7 +234,7 @@ paths:
       summary: Login to portal
       tags:
       - Auth
-  /portal/auth/signup:
+  /auth/signup:
     post:
       consumes:
       - application/json
@@ -220,7 +269,57 @@ paths:
       summary: Signup
       tags:
       - Auth
-  /portal/me:
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: Get list of books
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Page Size
+        in: query
+        name: pageSize
+        type: integer
+      - description: Sort
+        in: query
+        name: sort
+        type: string
+      - description: Query
+        in: query
+        name: query
+        type: string
+      - description: Topic ID
+        in: query
+        name: topicID
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/BooksResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get list of books
+      tags:
+      - Book
+  /me:
     get:
       consumes:
       - application/json
@@ -250,7 +349,7 @@ paths:
       summary: Retrieve my information
       tags:
       - User
-  /portal/users:
+  /users:
     put:
       consumes:
       - application/json
@@ -287,7 +386,7 @@ paths:
       summary: Update user
       tags:
       - User
-  /portal/users/password:
+  /users/password:
     put:
       consumes:
       - application/json
