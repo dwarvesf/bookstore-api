@@ -294,6 +294,59 @@ func (_c *Repo_GetList_Call) RunAndReturn(run func(db.Context, model.ListQuery) 
 	return _c
 }
 
+// IsExist provides a mock function with given fields: ctx, ID
+func (_m *Repo) IsExist(ctx db.Context, ID int) (bool, error) {
+	ret := _m.Called(ctx, ID)
+
+	var r0 bool
+	var r1 error
+	if rf, ok := ret.Get(0).(func(db.Context, int) (bool, error)); ok {
+		return rf(ctx, ID)
+	}
+	if rf, ok := ret.Get(0).(func(db.Context, int) bool); ok {
+		r0 = rf(ctx, ID)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	if rf, ok := ret.Get(1).(func(db.Context, int) error); ok {
+		r1 = rf(ctx, ID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Repo_IsExist_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsExist'
+type Repo_IsExist_Call struct {
+	*mock.Call
+}
+
+// IsExist is a helper method to define mock.On call
+//   - ctx db.Context
+//   - ID int
+func (_e *Repo_Expecter) IsExist(ctx interface{}, ID interface{}) *Repo_IsExist_Call {
+	return &Repo_IsExist_Call{Call: _e.mock.On("IsExist", ctx, ID)}
+}
+
+func (_c *Repo_IsExist_Call) Run(run func(ctx db.Context, ID int)) *Repo_IsExist_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(db.Context), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *Repo_IsExist_Call) Return(_a0 bool, _a1 error) *Repo_IsExist_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *Repo_IsExist_Call) RunAndReturn(run func(db.Context, int) (bool, error)) *Repo_IsExist_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Update provides a mock function with given fields: ctx, uID, _a2
 func (_m *Repo) Update(ctx db.Context, uID int, _a2 model.UpdateUserRequest) (*model.User, error) {
 	ret := _m.Called(ctx, uID, _a2)

@@ -17,8 +17,8 @@ type UpdateUserRequest struct {
 
 // UpdatePasswordRequest represent the update password request
 type UpdatePasswordRequest struct {
-	NewPassword string `json:"newPassword" validate:"required"`
-	OldPassword string `json:"oldPassword" validate:"required"`
+	NewPassword string `json:"newPassword" validate:"required" binding:"required"`
+	OldPassword string `json:"oldPassword" validate:"required" binding:"required"`
 } // @name UpdatePasswordRequest
 
 // UserResponse represent the user response

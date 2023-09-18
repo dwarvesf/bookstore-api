@@ -86,3 +86,8 @@ func (r *repo) UpdatePassword(ctx db.Context, uID int, newPassword string) error
 	_, err = u.Update(ctx.Context, ctx.DB, boil.Infer())
 	return err
 }
+
+// IsExist check if user is exist
+func (r *repo) IsExist(ctx db.Context, ID int) (bool, error) {
+	return orm.UserExists(ctx, ctx.DB, ID)
+}

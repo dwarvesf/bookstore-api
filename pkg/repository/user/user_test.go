@@ -589,3 +589,54 @@ func Test_repo_GetList(t *testing.T) {
 		}
 	})
 }
+
+func Test_repo_IsExist(t *testing.T) {
+	db.WithTestingDB(t, func(ctx db.Context) {
+		user := &orm.User{
+			Email:          "admin@d.foundation",
+			Name:           "admin",
+			Status:         "active",
+			Avatar:         "https://d.foundation/avatar.png",
+			Role:           "admin",
+			HashedPassword: "123456",
+			Salt:           "abcdef",
+		}
+		err := user.Insert(ctx, ctx.DB, boil.Infer())
+		require.NoError(t, err)
+
+		type args struct {
+			uID int
+		}
+		tests := map[string]struct {
+			args    args
+			want    bool
+			wantErr bool
+		}{
+			"success": {
+				args: args{
+					uID: user.ID,
+				},
+				want:    true,
+				wantErr: false,
+			},
+			"not found": {
+				args: args{
+					uID: user.ID + 1,
+				},
+				want:    false,
+				wantErr: false,
+			},
+		}
+		for name, tt := range tests {
+			t.Run(name, func(t *testing.T) {
+				r := &repo{}
+				got, err := r.IsExist(ctx, tt.args.uID)
+				if (err != nil) != tt.wantErr {
+					t.Errorf("repo.IsExist() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				require.Equal(t, tt.want, got)
+			})
+		}
+	})
+}

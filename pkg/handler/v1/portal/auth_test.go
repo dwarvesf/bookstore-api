@@ -145,7 +145,6 @@ func TestHandler_Signup(t *testing.T) {
 					Email:    "admin@gmail.com",
 					Password: "abcd1234",
 					FullName: "Admin",
-					Status:   "active",
 					Avatar:   "https://www.google.com",
 				},
 			},
