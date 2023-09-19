@@ -2,11 +2,10 @@ package auth
 
 import (
 	"context"
-	"database/sql"
-	"errors"
 
 	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
+	"github.com/pkg/errors"
 )
 
 func (c impl) Signup(ctx context.Context, req model.SignupRequest) (err error) {
@@ -28,9 +27,10 @@ func (c impl) Signup(ctx context.Context, req model.SignupRequest) (err error) {
 
 	//  check if email is existed
 	_, err = c.repo.User.GetByEmail(dbCtx, req.Email)
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+	if err != nil && !errors.Is(err, model.ErrNotFound) {
 		return err
 	}
+
 	if err == nil {
 		return model.ErrEmailExisted
 	}

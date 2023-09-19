@@ -21,7 +21,7 @@ import (
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
-// @Router /portal/auth/login [post]
+// @Router /auth/login [post]
 func (h Handler) Login(c *gin.Context) {
 	const spanName = "loginHandler"
 	ctx, span := h.monitor.Start(c.Request.Context(), spanName)
@@ -64,7 +64,7 @@ func (h Handler) Login(c *gin.Context) {
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
-// @Router /portal/auth/signup [post]
+// @Router /auth/signup [post]
 func (h Handler) Signup(c *gin.Context) {
 	const spanName = "signupHandler"
 	ctx, span := h.monitor.Start(c.Request.Context(), spanName)

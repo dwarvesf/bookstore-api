@@ -51,7 +51,7 @@ func GetList[OrmModel any, Model any](
 
 	// query list
 	queryParams := make([]qm.QueryMod, 0, len(ormParams))
-	copy(queryParams, ormParams)
+	queryParams = append(queryParams, ormParams...)
 	queryParams = append(queryParams,
 		qm.OrderBy(nomalizedSort),
 		qm.Limit(pagination.PageSize),

@@ -25,7 +25,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/portal/auth/login": {
+        "/auth/login": {
             "post": {
                 "description": "Login to portal by email",
                 "consumes": [
@@ -78,7 +78,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/portal/auth/signup": {
+        "/auth/signup": {
             "post": {
                 "description": "Signup",
                 "consumes": [
@@ -131,7 +131,85 @@ const docTemplate = `{
                 }
             }
         },
-        "/portal/me": {
+        "/books": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get list of books",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get list of books",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page Size",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Query",
+                        "name": "query",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Topic ID",
+                        "name": "topicID",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BooksResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/me": {
             "get": {
                 "security": [
                     {
@@ -178,7 +256,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/portal/users": {
+        "/users": {
             "put": {
                 "security": [
                     {
@@ -236,7 +314,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/portal/users/password": {
+        "/users/password": {
             "put": {
                 "security": [
                     {
@@ -312,6 +390,37 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "Book": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "topic": {
+                    "$ref": "#/definitions/Topic"
+                }
+            }
+        },
+        "BooksResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Book"
+                    }
+                },
+                "metadata": {
+                    "$ref": "#/definitions/Metadata"
                 }
             }
         },
@@ -420,6 +529,35 @@ const docTemplate = `{
                 }
             }
         },
+        "Metadata": {
+            "type": "object",
+            "required": [
+                "page",
+                "pageSize",
+                "totalPages",
+                "totalRecords"
+            ],
+            "properties": {
+                "hasNext": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                },
+                "totalRecords": {
+                    "type": "integer"
+                }
+            }
+        },
         "SignupRequest": {
             "type": "object",
             "required": [
@@ -441,6 +579,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "Topic": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }
