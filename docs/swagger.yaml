@@ -27,6 +27,11 @@ definitions:
     - id
     - name
     type: object
+  BookResponse:
+    properties:
+      data:
+        $ref: '#/definitions/Book'
+    type: object
   BooksResponse:
     properties:
       data:
@@ -159,6 +164,17 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  UpdateBookRequest:
+    properties:
+      author:
+        type: string
+      name:
+        type: string
+      topicId:
+        type: integer
+    required:
+    - name
     type: object
   UpdatePasswordRequest:
     properties:
@@ -305,7 +321,7 @@ paths:
         type: string
       - description: Topic ID
         in: query
-        name: topicID
+        name: topicId
         type: integer
       produces:
       - application/json
@@ -348,7 +364,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/Book'
+            $ref: '#/definitions/BookResponse'
         "400":
           description: Bad Request
           schema:
@@ -364,6 +380,47 @@ paths:
       security:
       - BearerAuth: []
       summary: Create new book
+      tags:
+      - Book
+  /books/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Book Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/BookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update book
       tags:
       - Book
   /me:

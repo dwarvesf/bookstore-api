@@ -26,3 +26,13 @@ type CreateBookRequest struct {
 	Author  string `json:"author"`
 	TopicID int    `json:"topicId"`
 } // @name CreateBookRequest
+
+// UpdateBookRequest represent the update book request
+type UpdateBookRequest struct {
+	Name    string `json:"name" validate:"required" binding:"required"`
+	Author  string `json:"author"`
+	TopicID int    `json:"topicId"`
+} // @name UpdateBookRequest
+
+// BookResponse represent the book response
+type BookResponse = Response[Book] // @name BookResponse

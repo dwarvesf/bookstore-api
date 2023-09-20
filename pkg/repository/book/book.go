@@ -18,19 +18,22 @@ func (r *repo) GetList(ctx db.Context, q model.ListQuery, topicID int, uID int) 
 		PrepareQueryFn: func(ctx db.Context, q model.ListQuery) []qm.QueryMod {
 			queryParams := []qm.QueryMod{}
 			if q.Query != "" {
-				queryParams = append(queryParams, qm.Where("user_id=? AND (lower(name) LIKE lower(?) OR lower(author) LIKE lower(?))", uID, "%"+q.Query+"%", "%"+q.Query+"%"))
+				queryParams = append(queryParams, qm.Where("(lower(name) LIKE lower(?) OR lower(author) LIKE lower(?))", "%"+q.Query+"%", "%"+q.Query+"%"))
+				queryParams = append(queryParams, orm.BookWhere.UserID.EQ(uID))
+
 			}
 
-			if topicID != 0 {
-				queryParams = append(queryParams, qm.Where("topic_id=?", topicID))
+			if topicID > 0 {
+				queryParams = append(queryParams, orm.BookWhere.TopicID.EQ(null.NewInt(topicID, true)))
 			}
+
 			return queryParams
 		},
 		CounableFn: func(q []qm.QueryMod) base.Counable {
 			return orm.Books(q...)
 		},
 		QueryListFn: func(q []qm.QueryMod) ([]*orm.Book, error) {
-			q = append(q, qm.Load("Topic"))
+			q = append(q, qm.Load(orm.BookRels.Topic))
 			return orm.Books(q...).All(ctx.Context, ctx.DB)
 		},
 		MappingFn: toBookModel,
@@ -43,8 +46,13 @@ func (r *repo) Count(ctx db.Context) (int64, error) {
 	return orm.Books().Count(ctx.Context, ctx.DB)
 }
 
-func (r *repo) GetByID(ctx db.Context, uID int) (*model.Book, error) {
-	dt, err := orm.Books(orm.BookWhere.ID.EQ(uID), qm.Load(orm.BookRels.Topic)).One(ctx.Context, ctx.DB)
+func (r *repo) GetByID(ctx db.Context, ID int) (*model.Book, error) {
+	dt, err := orm.Books(orm.BookWhere.ID.EQ(ID), qm.Load(orm.BookRels.Topic)).One(ctx.Context, ctx.DB)
+	return toBookModel(dt), err
+}
+
+func (r *repo) GetByUserAndID(ctx db.Context, uID int, ID int) (*model.Book, error) {
+	dt, err := orm.Books(orm.BookWhere.UserID.EQ(uID), orm.BookWhere.ID.EQ(ID), qm.Load(orm.BookRels.Topic)).One(ctx.Context, ctx.DB)
 	return toBookModel(dt), err
 }
 
@@ -52,7 +60,7 @@ func (r *repo) Create(ctx db.Context, book model.CreateBookRequest) (*model.Book
 	u := &orm.Book{
 		Name:    book.Name,
 		Author:  null.String{String: book.Author, Valid: book.Author != ""},
-		TopicID: null.Int{Int: book.TopicID, Valid: book.TopicID != 0},
+		TopicID: null.Int{Int: book.TopicID, Valid: book.TopicID > 0},
 		UserID:  book.UserID,
 	}
 
@@ -68,7 +76,7 @@ func (r *repo) Update(ctx db.Context, book model.UpdateBookRequest) (*model.Book
 
 	u.Name = book.Name
 	u.Author = null.String{String: book.Author, Valid: book.Author != ""}
-	u.TopicID = null.Int{Int: book.TopicID, Valid: book.TopicID != 0}
+	u.TopicID = null.Int{Int: book.TopicID, Valid: book.TopicID > 0}
 
 	_, err = u.Update(ctx, ctx.DB, boil.Infer())
 	return toBookModel(u), err

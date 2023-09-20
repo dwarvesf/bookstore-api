@@ -14,6 +14,7 @@ import (
 	"github.com/dwarvesf/bookstore-api/pkg/logger"
 	"github.com/dwarvesf/bookstore-api/pkg/logger/monitor"
 	"github.com/dwarvesf/bookstore-api/pkg/model"
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -189,7 +190,7 @@ func TestHandler_CreateBook(t *testing.T) {
 
 	type expected struct {
 		Status  int
-		Body    *view.Book
+		Body    *view.BookResponse
 		WantErr bool
 		Err     string
 	}
@@ -221,14 +222,16 @@ func TestHandler_CreateBook(t *testing.T) {
 			},
 			expected: expected{
 				Status: 200,
-				Body: &view.Book{
-					ID:     1,
-					Name:   "book1",
-					Author: "author1",
-					Topic: &view.Topic{
-						ID:   1,
-						Name: "topic1",
-						Code: "code1",
+				Body: &view.BookResponse{
+					Data: view.Book{
+						ID:     1,
+						Name:   "book1",
+						Author: "author1",
+						Topic: &view.Topic{
+							ID:   1,
+							Name: "topic1",
+							Code: "code1",
+						},
 					},
 				},
 			},
@@ -273,6 +276,123 @@ func TestHandler_CreateBook(t *testing.T) {
 				monitor:  monitor.TestMonitor(),
 			}
 			h.CreateBook(ginCtx)
+
+			assert.Equal(t, tt.expected.Status, w.Code)
+			resBody := w.Body.String()
+			body, err := json.Marshal(tt.expected.Body)
+			assert.Nil(t, err)
+			if !tt.expected.WantErr {
+				assert.Equal(t, string(body), resBody)
+			} else {
+				assert.Contains(t, resBody, tt.expected.Err)
+			}
+		})
+	}
+}
+
+func TestHandler_UpdateBook(t *testing.T) {
+	type mocked struct {
+		expUpdateBook bool
+		books         *model.Book
+		updateBookErr error
+	}
+
+	type args struct {
+		id  string
+		req view.CreateBookRequest
+	}
+
+	type expected struct {
+		Status  int
+		Body    *view.BookResponse
+		WantErr bool
+		Err     string
+	}
+	tests := map[string]struct {
+		mocked   mocked
+		args     args
+		expected expected
+	}{
+		"success": {
+			mocked: mocked{
+				expUpdateBook: true,
+				books: &model.Book{
+					ID:     1,
+					Name:   "book1",
+					Author: "author1",
+					Topic: &model.Topic{
+						ID:   1,
+						Name: "topic1",
+						Code: "code1",
+					},
+				},
+			},
+			args: args{
+				id: "1",
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status: 200,
+				Body: &view.BookResponse{
+					Data: view.Book{
+						ID:     1,
+						Name:   "book1",
+						Author: "author1",
+						Topic: &view.Topic{
+							ID:   1,
+							Name: "topic1",
+							Code: "code1",
+						},
+					},
+				},
+			},
+		},
+		"failed": {
+			mocked: mocked{
+				expUpdateBook: true,
+				updateBookErr: errors.New("failed to create book"),
+			},
+			args: args{
+				id: "1",
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status:  500,
+				WantErr: true,
+				Err:     "INTERNAL_ERROR",
+			},
+		},
+	}
+	for name, tt := range tests {
+		w := httptest.NewRecorder()
+		cfg := config.LoadTestConfig()
+		param := []gin.Param{{Key: "id", Value: tt.args.id}}
+
+		ginCtx := testutil.NewRequest(w, testutil.MethodGet, nil, param, nil, tt.args.req)
+
+		var (
+			ctrlMock = mocks.NewController(t)
+		)
+
+		if tt.mocked.expUpdateBook {
+			ctrlMock.EXPECT().UpdateBook(mock.Anything, mock.Anything).Return(tt.mocked.books, tt.mocked.updateBookErr)
+		}
+		t.Run(name, func(t *testing.T) {
+			h := Handler{
+				log:      logger.NewLogger(),
+				cfg:      cfg,
+				bookCtrl: ctrlMock,
+				monitor:  monitor.TestMonitor(),
+			}
+			h.UpdateBook(ginCtx)
 
 			assert.Equal(t, tt.expected.Status, w.Code)
 			resBody := w.Body.String()

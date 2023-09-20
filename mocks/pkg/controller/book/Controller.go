@@ -133,6 +133,61 @@ func (_c *Controller_GetBooks_Call) RunAndReturn(run func(context.Context, model
 	return _c
 }
 
+// UpdateBook provides a mock function with given fields: ctx, _a1
+func (_m *Controller) UpdateBook(ctx context.Context, _a1 model.UpdateBookRequest) (*model.Book, error) {
+	ret := _m.Called(ctx, _a1)
+
+	var r0 *model.Book
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.UpdateBookRequest) (*model.Book, error)); ok {
+		return rf(ctx, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, model.UpdateBookRequest) *model.Book); ok {
+		r0 = rf(ctx, _a1)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Book)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, model.UpdateBookRequest) error); ok {
+		r1 = rf(ctx, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Controller_UpdateBook_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateBook'
+type Controller_UpdateBook_Call struct {
+	*mock.Call
+}
+
+// UpdateBook is a helper method to define mock.On call
+//   - ctx context.Context
+//   - _a1 model.UpdateBookRequest
+func (_e *Controller_Expecter) UpdateBook(ctx interface{}, _a1 interface{}) *Controller_UpdateBook_Call {
+	return &Controller_UpdateBook_Call{Call: _e.mock.On("UpdateBook", ctx, _a1)}
+}
+
+func (_c *Controller_UpdateBook_Call) Run(run func(ctx context.Context, _a1 model.UpdateBookRequest)) *Controller_UpdateBook_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(model.UpdateBookRequest))
+	})
+	return _c
+}
+
+func (_c *Controller_UpdateBook_Call) Return(_a0 *model.Book, _a1 error) *Controller_UpdateBook_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *Controller_UpdateBook_Call) RunAndReturn(run func(context.Context, model.UpdateBookRequest) (*model.Book, error)) *Controller_UpdateBook_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewController creates a new instance of Controller. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewController(t interface {

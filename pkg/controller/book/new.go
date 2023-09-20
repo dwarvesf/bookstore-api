@@ -13,6 +13,7 @@ import (
 type Controller interface {
 	GetBooks(ctx context.Context, q model.ListQuery, topicID int) (*model.ListResult[model.Book], error)
 	CreateBook(ctx context.Context, book model.CreateBookRequest) (*model.Book, error)
+	UpdateBook(ctx context.Context, book model.UpdateBookRequest) (*model.Book, error)
 }
 
 type impl struct {
