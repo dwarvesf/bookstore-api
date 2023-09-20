@@ -165,6 +165,13 @@ definitions:
       name:
         type: string
     type: object
+  TopicsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/Topic'
+        type: array
+    type: object
   UpdateBookRequest:
     properties:
       author:
@@ -487,6 +494,35 @@ paths:
       summary: Retrieve my information
       tags:
       - User
+  /topics:
+    get:
+      consumes:
+      - application/json
+      description: Get all topics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/TopicsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all topics
+      tags:
+      - Topic
   /users:
     put:
       consumes:

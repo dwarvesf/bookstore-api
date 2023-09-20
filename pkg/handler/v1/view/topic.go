@@ -6,3 +6,6 @@ type Topic struct {
 	Name string `json:"name"`
 	Code string `json:"code"`
 } // @name Topic
+
+// TopicsResponse is the response for get topics
+type TopicsResponse = Response[[]Topic] // @name TopicsResponse

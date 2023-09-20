@@ -3,6 +3,7 @@ package topic
 import (
 	"testing"
 
+	"github.com/dwarvesf/bookstore-api/pkg/model"
 	"github.com/dwarvesf/bookstore-api/pkg/repository/db"
 	"github.com/dwarvesf/bookstore-api/pkg/repository/orm"
 	"github.com/stretchr/testify/require"
@@ -49,6 +50,51 @@ func Test_repo_IsExist(t *testing.T) {
 					t.Errorf("repo.IsExist() error = %v, wantErr %v", err, tt.wantErr)
 					return
 				}
+				require.Equal(t, tt.want, got)
+			})
+		}
+	})
+}
+
+func Test_repo_GetAll(t *testing.T) {
+	db.WithTestingDB(t, func(ctx db.Context) {
+
+		tests := map[string]struct {
+			want []model.Topic
+
+			wantErr bool
+		}{
+			"success": {
+				want: []model.Topic{
+					{
+						ID:   1,
+						Name: "Programming",
+						Code: "programming",
+					},
+					{
+						ID:   2,
+						Name: "Database",
+						Code: "database",
+					},
+					{
+						ID:   3,
+						Name: "DevOps",
+						Code: "devops",
+					},
+				},
+				wantErr: false,
+			},
+		}
+
+		for name, tt := range tests {
+			t.Run(name, func(t *testing.T) {
+				r := &repo{}
+				got, err := r.GetAll(ctx)
+				if (err != nil) != tt.wantErr {
+					t.Errorf("repo.GetAll() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+
 				require.Equal(t, tt.want, got)
 			})
 		}
