@@ -98,6 +98,7 @@ func authenticatedHandler(r *gin.Engine, a App) {
 	apiV1.GET("/me", portalHandler.Me)
 	apiV1.PUT("/users", portalHandler.UpdateUser)
 	apiV1.PUT("/users/password", portalHandler.UpdatePassword)
+	apiV1.GET("/topics", portalHandler.GetTopics)
 
 	bookGroup := apiV1.Group("/books")
 	{
