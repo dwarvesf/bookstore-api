@@ -406,3 +406,87 @@ func TestHandler_UpdateBook(t *testing.T) {
 		})
 	}
 }
+
+func TestHandler_DeleteBook(t *testing.T) {
+	type mocked struct {
+		expDeleteBook bool
+		deleteBookErr error
+	}
+
+	type args struct {
+		id string
+	}
+
+	type expected struct {
+		Status  int
+		Body    *view.MessageResponse
+		WantErr bool
+		Err     string
+	}
+	tests := map[string]struct {
+		mocked   mocked
+		args     args
+		expected expected
+	}{
+		"success": {
+			mocked: mocked{
+				expDeleteBook: true,
+			},
+			args: args{
+				id: "1",
+			},
+			expected: expected{
+				Status: 200,
+				Body:   &view.MessageResponse{Data: view.Message{Message: "OK"}},
+			},
+		},
+		"failed": {
+			mocked: mocked{
+				expDeleteBook: true,
+				deleteBookErr: errors.New("failed to create book"),
+			},
+			args: args{
+				id: "1",
+			},
+			expected: expected{
+				Status:  500,
+				WantErr: true,
+				Err:     "INTERNAL_ERROR",
+			},
+		},
+	}
+	for name, tt := range tests {
+		w := httptest.NewRecorder()
+		cfg := config.LoadTestConfig()
+		param := []gin.Param{{Key: "id", Value: tt.args.id}}
+
+		ginCtx := testutil.NewRequest(w, testutil.MethodGet, nil, param, nil, nil)
+
+		var (
+			ctrlMock = mocks.NewController(t)
+		)
+
+		if tt.mocked.expDeleteBook {
+			ctrlMock.EXPECT().DeleteBook(mock.Anything, mock.Anything).Return(tt.mocked.deleteBookErr)
+		}
+		t.Run(name, func(t *testing.T) {
+			h := Handler{
+				log:      logger.NewLogger(),
+				cfg:      cfg,
+				bookCtrl: ctrlMock,
+				monitor:  monitor.TestMonitor(),
+			}
+			h.DeleteBook(ginCtx)
+
+			assert.Equal(t, tt.expected.Status, w.Code)
+			resBody := w.Body.String()
+			body, err := json.Marshal(tt.expected.Body)
+			assert.Nil(t, err)
+			if !tt.expected.WantErr {
+				assert.Equal(t, string(body), resBody)
+			} else {
+				assert.Contains(t, resBody, tt.expected.Err)
+			}
+		})
+	}
+}

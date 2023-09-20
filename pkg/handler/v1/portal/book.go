@@ -166,3 +166,37 @@ func (h Handler) UpdateBook(c *gin.Context) {
 
 	c.JSON(http.StatusOK, view.BookResponse{Data: *toBookView(res)})
 }
+
+// DeleteBook godoc
+// @Summary Delete book by id
+// @Description Delete book by id
+// @Tags Book
+// @Accept  json
+// @Produce  json
+// @Security BearerAuth
+// @Param id path int true "Book ID"
+// @Success 200 {object} MessageResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /books/{id} [delete]
+func (h Handler) DeleteBook(c *gin.Context) {
+	const spanName = "DeleteBook"
+	newCtx, span := h.monitor.Start(c.Request.Context(), spanName)
+	defer span.End()
+
+	bookID := c.Param("id")
+	ID, err := strconv.Atoi(bookID)
+	if err != nil {
+		util.HandleError(c, model.ErrInvalidBookID)
+		return
+	}
+
+	err = h.bookCtrl.DeleteBook(newCtx, ID)
+	if err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, view.MessageResponse{Data: view.Message{Message: "OK"}})
+}
