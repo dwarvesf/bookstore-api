@@ -44,7 +44,7 @@ func (r *repo) Count(ctx db.Context) (int64, error) {
 }
 
 func (r *repo) GetByID(ctx db.Context, uID int) (*model.Book, error) {
-	dt, err := orm.Books(qm.Where("id=?", uID), qm.Load("Topic")).One(ctx.Context, ctx.DB)
+	dt, err := orm.Books(orm.BookWhere.ID.EQ(uID), qm.Load(orm.BookRels.Topic)).One(ctx.Context, ctx.DB)
 	return toBookModel(dt), err
 }
 
@@ -57,8 +57,6 @@ func (r *repo) Create(ctx db.Context, book model.CreateBookRequest) (*model.Book
 	}
 
 	err := u.Insert(ctx, ctx.DB, boil.Infer())
-
-	u, err = orm.Books(qm.Where("id=?", u.ID), qm.Load("Topic")).One(ctx.Context, ctx.DB)
 	return toBookModel(u), err
 }
 
@@ -76,11 +74,11 @@ func (r *repo) Update(ctx db.Context, book model.UpdateBookRequest) (*model.Book
 	return toBookModel(u), err
 }
 
-func (r *repo) IsExist(ctx db.Context, id int, userID int) (bool, error) {
-	return orm.Books(qm.Where("id=? AND user_id=?", id, userID)).Exists(ctx.Context, ctx.DB)
+func (r *repo) IsExist(ctx db.Context, ID int, userID int) (bool, error) {
+	return orm.Books(orm.BookWhere.ID.EQ(ID), orm.BookWhere.UserID.EQ(userID)).Exists(ctx.Context, ctx.DB)
 }
 
-func (r *repo) Delete(ctx db.Context, id int) error {
-	_, err := orm.Books(qm.Where("id=?", id)).DeleteAll(ctx.Context, ctx.DB)
+func (r *repo) Delete(ctx db.Context, ID int) error {
+	_, err := orm.Books(orm.BookWhere.ID.EQ(ID)).DeleteAll(ctx.Context, ctx.DB)
 	return err
 }

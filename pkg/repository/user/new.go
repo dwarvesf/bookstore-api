@@ -15,6 +15,7 @@ type Repo interface {
 	Create(ctx db.Context, user model.SignupRequest) (*model.User, error)
 	Update(ctx db.Context, uID int, user model.UpdateUserRequest) (*model.User, error)
 	UpdatePassword(ctx db.Context, uID int, newPassword string) error
+	IsExist(ctx db.Context, ID int) (bool, error)
 }
 
 // New return new user repo

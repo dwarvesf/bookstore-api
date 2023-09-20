@@ -182,11 +182,6 @@ func Test_repo_Create(t *testing.T) {
 					ID:     u.ID + 1,
 					Name:   "book2",
 					Author: "author2",
-					Topic: &model.Topic{
-						ID:   topic.ID,
-						Name: "topic1",
-						Code: "code1",
-					},
 				},
 				wantErr: false,
 			},

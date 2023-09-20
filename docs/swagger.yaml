@@ -23,6 +23,9 @@ definitions:
         type: string
       topic:
         $ref: '#/definitions/Topic'
+    required:
+    - id
+    - name
     type: object
   BooksResponse:
     properties:
@@ -32,6 +35,17 @@ definitions:
         type: array
       metadata:
         $ref: '#/definitions/Metadata'
+    type: object
+  CreateBookRequest:
+    properties:
+      author:
+        type: string
+      name:
+        type: string
+      topicId:
+        type: integer
+    required:
+    - name
     type: object
   ErrorDetail:
     properties:
@@ -131,8 +145,6 @@ definitions:
       fullName:
         type: string
       password:
-        type: string
-      status:
         type: string
     required:
     - email
@@ -317,6 +329,41 @@ paths:
       security:
       - BearerAuth: []
       summary: Get list of books
+      tags:
+      - Book
+    post:
+      consumes:
+      - application/json
+      description: Create new book
+      parameters:
+      - description: Create Book Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create new book
       tags:
       - Book
   /me:

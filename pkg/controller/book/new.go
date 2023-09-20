@@ -12,6 +12,7 @@ import (
 // Controller auth controller
 type Controller interface {
 	GetBooks(ctx context.Context, q model.ListQuery, topicID int) (*model.ListResult[model.Book], error)
+	CreateBook(ctx context.Context, book model.CreateBookRequest) (*model.Book, error)
 }
 
 type impl struct {
