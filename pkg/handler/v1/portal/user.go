@@ -35,8 +35,10 @@ func (h Handler) Me(c *gin.Context) {
 
 	c.JSON(http.StatusOK, view.MeResponse{
 		Data: view.Me{
-			ID:    rs.ID,
-			Email: rs.Email,
+			ID:       rs.ID,
+			Email:    rs.Email,
+			FullName: rs.FullName,
+			Avatar:   rs.Avatar,
 		},
 	})
 }

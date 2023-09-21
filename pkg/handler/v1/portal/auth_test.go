@@ -126,8 +126,10 @@ func TestHandler_Signup(t *testing.T) {
 		input view.SignupRequest
 	}
 	type expected struct {
-		Status int
-		Body   view.MessageResponse
+		Status  int
+		Body    view.MessageResponse
+		WantErr bool
+		Err     string
 	}
 
 	tests := map[string]struct {
@@ -157,6 +159,24 @@ func TestHandler_Signup(t *testing.T) {
 				},
 			},
 		},
+		"invalid email format": {
+			mocked: mocked{
+				expSignupCalled: false,
+			},
+			args: args{
+				input: view.SignupRequest{
+					Email:    "admin",
+					Password: "abcd1234",
+					FullName: "Admin",
+					Avatar:   "https://www.google.com",
+				},
+			},
+			expected: expected{
+				Status:  http.StatusBadRequest,
+				WantErr: true,
+				Err:     "Key: 'SignupRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag",
+			},
+		},
 	}
 	for name, tt := range tests {
 		w := httptest.NewRecorder()
@@ -179,9 +199,14 @@ func TestHandler_Signup(t *testing.T) {
 			h.Signup(ginCtx)
 			assert.Equal(t, tt.expected.Status, w.Code)
 			resBody := w.Body.String()
-			body, err := json.Marshal(tt.expected.Body)
-			assert.Nil(t, err)
-			assert.Equal(t, resBody, string(body))
+
+			if !tt.expected.WantErr {
+				body, err := json.Marshal(tt.expected.Body)
+				assert.Nil(t, err)
+				assert.Equal(t, resBody, string(body))
+			} else {
+				assert.Contains(t, resBody, string(tt.expected.Err))
+			}
 		})
 	}
 }

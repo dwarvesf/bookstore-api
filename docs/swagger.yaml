@@ -5,6 +5,7 @@ definitions:
       accessToken:
         type: string
       email:
+        format: email
         type: string
       id:
         type: integer
@@ -82,6 +83,7 @@ definitions:
   LoginRequest:
     properties:
       email:
+        format: email
         type: string
       password:
         type: string
@@ -96,12 +98,19 @@ definitions:
     type: object
   Me:
     properties:
+      avatar:
+        type: string
       email:
+        format: email
+        type: string
+      fullName:
         type: string
       id:
         type: integer
     required:
+    - avatar
     - email
+    - fullName
     - id
     type: object
   MeResponse:
@@ -146,6 +155,7 @@ definitions:
       avatar:
         type: string
       email:
+        format: email
         type: string
       fullName:
         type: string
@@ -205,6 +215,7 @@ definitions:
       avatar:
         type: string
       email:
+        format: email
         type: string
       fullName:
         type: string

@@ -5,8 +5,10 @@ type MeResponse = Response[Me] // @name MeResponse
 
 // Me represent the user
 type Me struct {
-	ID    int    `json:"id" validate:"required"`
-	Email string `json:"email" validate:"required"`
+	ID       int    `json:"id" validate:"required"`
+	Email    string `json:"email" validate:"required" format:"email"`
+	FullName string `json:"fullName" validate:"required"`
+	Avatar   string `json:"avatar" validate:"required"`
 } // @name Me
 
 // UpdateUserRequest represent the update user request
@@ -27,7 +29,7 @@ type UserResponse = Response[User] // @name UserResponse
 // User represent the user
 type User struct {
 	ID       int    `json:"id" validate:"required"`
-	Email    string `json:"email" validate:"required"`
+	Email    string `json:"email" validate:"required" format:"email"`
 	FullName string `json:"fullName" validate:"required"`
 	Avatar   string `json:"avatar" validate:"required"`
 } // @name User
