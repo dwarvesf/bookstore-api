@@ -68,5 +68,6 @@ jobs:
           git config user.name $GIT_USER
           git config user.email $GIT_EMAIL
           mv /tmp/resources.yaml .
+          git add -A
           git commit -am "[skip ci] ${APP} ${K8S_ENVIRONMENT} image update"
           git push origin main
