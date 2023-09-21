@@ -63,8 +63,8 @@ jobs:
           ref: main
       - name: Update app version
         run: |
-          mkdir -p ./infrastructure/$APP/$K8S_ENVIRONMENT
-          cd ./infrastructure/$APP/$K8S_ENVIRONMENT
+          mkdir -p ./infrastructure/$APP/$IMAGE/$K8S_ENVIRONMENT
+          cd ./infrastructure/$APP/$IMAGE/$K8S_ENVIRONMENT
           git config user.name $GIT_USER
           git config user.email $GIT_EMAIL
           mv /tmp/resources.yaml .
