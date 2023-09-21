@@ -604,7 +604,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "id": {
                     "type": "integer"
@@ -719,7 +720,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "password": {
                     "type": "string"
@@ -737,11 +739,20 @@ const docTemplate = `{
         "Me": {
             "type": "object",
             "required": [
+                "avatar",
                 "email",
+                "fullName",
                 "id"
             ],
             "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "fullName": {
                     "type": "string"
                 },
                 "id": {
@@ -817,7 +828,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "fullName": {
                     "type": "string"
@@ -908,7 +920,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "fullName": {
                     "type": "string"

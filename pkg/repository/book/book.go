@@ -17,10 +17,10 @@ func (r *repo) GetList(ctx db.Context, q model.ListQuery, topicID int, uID int) 
 	fnSet := base.GetListFuncSet[orm.Book, model.Book]{
 		PrepareQueryFn: func(ctx db.Context, q model.ListQuery) []qm.QueryMod {
 			queryParams := []qm.QueryMod{}
+			queryParams = append(queryParams, orm.BookWhere.UserID.EQ(uID))
+
 			if q.Query != "" {
 				queryParams = append(queryParams, qm.Where("(lower(name) LIKE lower(?) OR lower(author) LIKE lower(?))", "%"+q.Query+"%", "%"+q.Query+"%"))
-				queryParams = append(queryParams, orm.BookWhere.UserID.EQ(uID))
-
 			}
 
 			if topicID > 0 {

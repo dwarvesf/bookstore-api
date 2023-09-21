@@ -10,8 +10,8 @@ type Book struct {
 
 // GetBooksRequest represent the get books response
 type GetBooksRequest struct {
-	Page     int    `form:"page" validate:"required" binding:"required"`
-	PageSize int    `form:"pageSize" validate:"required" binding:"required"`
+	Page     int    `form:"page"`
+	PageSize int    `form:"pageSize"`
 	Sort     string `form:"sort"`
 	Query    string `form:"query"`
 	TopicID  int    `form:"topicId"`

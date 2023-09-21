@@ -596,7 +596,8 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "id": {
                     "type": "integer"
@@ -711,7 +712,8 @@
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "password": {
                     "type": "string"
@@ -729,11 +731,20 @@
         "Me": {
             "type": "object",
             "required": [
+                "avatar",
                 "email",
+                "fullName",
                 "id"
             ],
             "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "fullName": {
                     "type": "string"
                 },
                 "id": {
@@ -809,7 +820,8 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "fullName": {
                     "type": "string"
@@ -900,7 +912,8 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email"
                 },
                 "fullName": {
                     "type": "string"
