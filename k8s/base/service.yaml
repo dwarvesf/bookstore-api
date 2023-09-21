@@ -8,4 +8,4 @@ spec:
       port: 80
       targetPort: http
   selector:
-    app: bookstore-api
+    app: api

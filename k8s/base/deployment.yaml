@@ -12,7 +12,7 @@ spec:
       containers:
         - name: api
           imagePullPolicy: Always
-          image: bookstore-api
+          image: gcr.io/df-infrastructure/bookstore/api
           ports:
             - containerPort: 8080
               name: http

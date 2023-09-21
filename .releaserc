@@ -1,6 +1,6 @@
 {
   "branches": [
-    "main",
+    "master",
     {
       "name": "staging",
       "prerelease": "rc"

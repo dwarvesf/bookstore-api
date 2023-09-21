@@ -12,9 +12,9 @@ env:
   GIT_USER: lmquang
   GIT_EMAIL: quanglm.ops@gmail.com
   REGISTRY_HOSTNAME: gcr.io
-  GKE_PROJECT: <gcp-project-id>
-  APP: bookstore-api
-  IMAGE: bookstore-api
+  GKE_PROJECT: df-infrastructure
+  APP: bookstore
+  IMAGE: api
 
 jobs:
   setup-build-publish-deploy:
@@ -63,6 +63,7 @@ jobs:
           ref: main
       - name: Update app version
         run: |
+          mkdir -p ./infrastructure/$APP/$K8S_ENVIRONMENT
           cd ./infrastructure/$APP/$K8S_ENVIRONMENT
           git config user.name $GIT_USER
           git config user.email $GIT_EMAIL

@@ -13,7 +13,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: sql-migrate
-          image: bookstore-api
+          image: gcr.io/df-infrastructure/bookstore/api
           command:
             - /bin/sh
             - -c

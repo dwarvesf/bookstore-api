@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api-dns
-      secretName: api-ssl
+        - develop-api.bookstore.dwarvesf.com
+      secretName: develop-api.bookstore.dwarvesf.com-tls
   rules:
-    - host: api-dns
+    - host: develop-api.bookstore.dwarvesf.com
       http:
         paths:
           - pathType: Prefix

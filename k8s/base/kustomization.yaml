@@ -22,8 +22,9 @@ resources:
 - ../base/jobs/sql-migrate.yaml
 namePrefix: bookstore-api- # <--- this prefix is app_name
 images:
-- name: bookstore-api # <--- this format should be {app_name}
+- name: gcr.io/df-infrastructure/bookstore/api # <--- this format should be {app_name}
 commonLabels:
   app: api
 commonAnnotations:
   secret.reloader.stakater.com/reload: api
+
