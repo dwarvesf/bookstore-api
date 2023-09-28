@@ -9,7 +9,10 @@ import (
 	"net/url"
 
 	mw "github.com/dwarvesf/bookstore-api/pkg/middleware"
+	"github.com/dwarvesf/bookstore-api/pkg/validator"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	govalidator "github.com/go-playground/validator/v10"
 )
 
 // HTTPMethod enum
@@ -55,6 +58,11 @@ func updateHeaders(ctx *gin.Context, headers map[string]string) {
 
 // NewRequest make a gin.Context request
 func NewRequest(w http.ResponseWriter, method HTTPMethod, headers map[string]string, params []gin.Param, u url.Values, body interface{}) *gin.Context {
+	if v, ok := binding.Validator.Engine().(*govalidator.Validate); ok {
+		v.RegisterValidation("password", validator.PasswordValidator)
+		v.RegisterValidation("author", validator.AuthorValidator)
+	}
+
 	ctx := GinContext(w)
 
 	ctx.Request.Method = string(method)

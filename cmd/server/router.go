@@ -9,8 +9,11 @@ import (
 	"github.com/dwarvesf/bookstore-api/pkg/realtime"
 	"github.com/dwarvesf/bookstore-api/pkg/service/jwthelper"
 	"github.com/dwarvesf/bookstore-api/pkg/util"
+	"github.com/dwarvesf/bookstore-api/pkg/validator"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	govalidator "github.com/go-playground/validator/v10"
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files
 	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
@@ -51,6 +54,11 @@ func setupRouter(a App) *gin.Engine {
 		r.Use(monitor.SentryPanicMiddleware(a.l))
 	}
 
+	if v, ok := binding.Validator.Engine().(*govalidator.Validate); ok {
+		v.RegisterValidation("password", validator.PasswordValidator)
+		v.RegisterValidation("author", validator.AuthorValidator)
+	}
+
 	// handlers
 	publicHandler(r, a)
 	authenticatedHandler(r, a)
@@ -89,7 +97,6 @@ func publicHandler(r *gin.Engine, a App) {
 }
 
 func authenticatedHandler(r *gin.Engine, a App) {
-
 	// api/v1
 	authMw := middleware.NewAuthMiddleware(jwthelper.NewHelper(a.cfg.SecretKey))
 	apiV1 := r.Group("/api/v1")

@@ -49,7 +49,7 @@ func TestHandler_Login(t *testing.T) {
 			args: args{
 				input: view.LoginRequest{
 					Email:    "admin@gmail.com",
-					Password: "abcd1234",
+					Password: "abcd1234@A",
 				},
 			},
 			expected: expected{
@@ -66,7 +66,7 @@ func TestHandler_Login(t *testing.T) {
 			args: args{
 				input: view.LoginRequest{
 					Email:    "admin@gmail.com",
-					Password: "invalid",
+					Password: "invalid@Aaa",
 				},
 			},
 			expected: expected{
@@ -90,6 +90,7 @@ func TestHandler_Login(t *testing.T) {
 			},
 		},
 	}
+
 	for name, tt := range tests {
 		w := httptest.NewRecorder()
 		ginCtx := testutil.NewRequest(w, testutil.MethodPost, nil, nil, nil, tt.args.input)
@@ -101,6 +102,7 @@ func TestHandler_Login(t *testing.T) {
 		if tt.mocked.expLoginCalled {
 			ctrlMock.EXPECT().Login(mock.Anything, mock.Anything).Return(tt.mocked.loginResponse, tt.mocked.loginErr)
 		}
+
 		t.Run(name, func(t *testing.T) {
 			h := Handler{
 				log:      logger.NewLogger(),
@@ -145,7 +147,7 @@ func TestHandler_Signup(t *testing.T) {
 			args: args{
 				input: view.SignupRequest{
 					Email:    "admin@gmail.com",
-					Password: "abcd1234",
+					Password: "abcd1234@A",
 					FullName: "Admin",
 					Avatar:   "https://www.google.com",
 				},
@@ -174,10 +176,29 @@ func TestHandler_Signup(t *testing.T) {
 			expected: expected{
 				Status:  http.StatusBadRequest,
 				WantErr: true,
-				Err:     "Key: 'SignupRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag",
+				Err:     "BAD_REQUEST",
+			},
+		},
+		"invalid password format": {
+			mocked: mocked{
+				expSignupCalled: false,
+			},
+			args: args{
+				input: view.SignupRequest{
+					Email:    "admin@gmail.com",
+					Password: "abcd1234",
+					FullName: "Admin",
+					Avatar:   "https://www.google.com",
+				},
+			},
+			expected: expected{
+				Status:  http.StatusBadRequest,
+				WantErr: true,
+				Err:     "BAD_REQUEST",
 			},
 		},
 	}
+
 	for name, tt := range tests {
 		w := httptest.NewRecorder()
 		ginCtx := testutil.NewRequest(w, testutil.MethodPost, nil, nil, nil, tt.args.input)
