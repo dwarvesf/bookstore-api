@@ -51,6 +51,7 @@ definitions:
       topicId:
         type: integer
     required:
+    - author
     - name
     type: object
   ErrorDetail:
@@ -86,6 +87,7 @@ definitions:
         format: email
         type: string
       password:
+        minLength: 8
         type: string
     required:
     - email
@@ -160,6 +162,7 @@ definitions:
       fullName:
         type: string
       password:
+        minLength: 8
         type: string
     required:
     - email
@@ -191,6 +194,7 @@ definitions:
       topicId:
         type: integer
     required:
+    - author
     - name
     type: object
   UpdatePasswordRequest:
@@ -320,6 +324,7 @@ paths:
       consumes:
       - application/json
       description: Get list of books
+      operationId: getBooks
       parameters:
       - description: Page
         in: query
@@ -369,6 +374,7 @@ paths:
       consumes:
       - application/json
       description: Create new book
+      operationId: createBook
       parameters:
       - description: Create Book Request
         in: body
@@ -405,6 +411,7 @@ paths:
       consumes:
       - application/json
       description: Delete book by id
+      operationId: deleteBook
       parameters:
       - description: Book ID
         in: path
@@ -439,6 +446,7 @@ paths:
       consumes:
       - application/json
       description: Update book
+      operationId: updateBook
       parameters:
       - description: Book ID
         in: path
@@ -510,6 +518,7 @@ paths:
       consumes:
       - application/json
       description: Get all topics
+      operationId: getTopics
       produces:
       - application/json
       responses:

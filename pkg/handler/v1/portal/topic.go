@@ -12,6 +12,7 @@ import (
 // GetTopics godoc
 // @Summary Get all topics
 // @Description Get all topics
+// @id getTopics
 // @Tags Topic
 // @Accept  json
 // @Produce  json

@@ -14,6 +14,7 @@ import (
 // GetBooks godoc
 // @Summary Get list of books
 // @Description Get list of books
+// @id getBooks
 // @Tags Book
 // @Accept  json
 // @Produce  json
@@ -87,6 +88,7 @@ func toBookView(b *model.Book) *view.Book {
 // CreateBook godoc
 // @Summary Create new book
 // @Description Create new book
+// @id createBook
 // @Tags Book
 // @Accept  json
 // @Produce  json
@@ -124,6 +126,7 @@ func (h Handler) CreateBook(c *gin.Context) {
 // UpdateBook godoc
 // @Summary Update book
 // @Description Update book
+// @id updateBook
 // @Tags Book
 // @Accept  json
 // @Produce  json
@@ -170,6 +173,7 @@ func (h Handler) UpdateBook(c *gin.Context) {
 // DeleteBook godoc
 // @Summary Delete book by id
 // @Description Delete book by id
+// @id deleteBook
 // @Tags Book
 // @Accept  json
 // @Produce  json

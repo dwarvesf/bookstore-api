@@ -149,6 +149,7 @@ const docTemplate = `{
                     "Book"
                 ],
                 "summary": "Get list of books",
+                "operationId": "getBooks",
                 "parameters": [
                     {
                         "type": "integer",
@@ -225,6 +226,7 @@ const docTemplate = `{
                     "Book"
                 ],
                 "summary": "Create new book",
+                "operationId": "createBook",
                 "parameters": [
                     {
                         "description": "Create Book Request",
@@ -282,6 +284,7 @@ const docTemplate = `{
                     "Book"
                 ],
                 "summary": "Update book",
+                "operationId": "updateBook",
                 "parameters": [
                     {
                         "type": "integer",
@@ -344,6 +347,7 @@ const docTemplate = `{
                     "Book"
                 ],
                 "summary": "Delete book by id",
+                "operationId": "deleteBook",
                 "parameters": [
                     {
                         "type": "integer",
@@ -446,6 +450,7 @@ const docTemplate = `{
                     "Topic"
                 ],
                 "summary": "Get all topics",
+                "operationId": "getTopics",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -658,6 +663,7 @@ const docTemplate = `{
         "CreateBookRequest": {
             "type": "object",
             "required": [
+                "author",
                 "name"
             ],
             "properties": {
@@ -724,7 +730,8 @@ const docTemplate = `{
                     "format": "email"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8
                 }
             }
         },
@@ -835,7 +842,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8
                 }
             }
         },
@@ -867,6 +875,7 @@ const docTemplate = `{
         "UpdateBookRequest": {
             "type": "object",
             "required": [
+                "author",
                 "name"
             ],
             "properties": {

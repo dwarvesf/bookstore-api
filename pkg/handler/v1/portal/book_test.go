@@ -205,7 +205,7 @@ func TestHandler_CreateBook(t *testing.T) {
 				books: &model.Book{
 					ID:     1,
 					Name:   "book1",
-					Author: "author1",
+					Author: "author",
 					Topic: &model.Topic{
 						ID:   1,
 						Name: "topic1",
@@ -216,7 +216,7 @@ func TestHandler_CreateBook(t *testing.T) {
 			args: args{
 				req: view.CreateBookRequest{
 					Name:    "book1",
-					Author:  "author1",
+					Author:  "author",
 					TopicID: 1,
 				},
 			},
@@ -226,7 +226,7 @@ func TestHandler_CreateBook(t *testing.T) {
 					Data: view.Book{
 						ID:     1,
 						Name:   "book1",
-						Author: "author1",
+						Author: "author",
 						Topic: &view.Topic{
 							ID:   1,
 							Name: "topic1",
@@ -244,7 +244,7 @@ func TestHandler_CreateBook(t *testing.T) {
 			args: args{
 				req: view.CreateBookRequest{
 					Name:    "book1",
-					Author:  "author1",
+					Author:  "author",
 					TopicID: 1,
 				},
 			},
@@ -254,7 +254,25 @@ func TestHandler_CreateBook(t *testing.T) {
 				Err:     "INTERNAL_ERROR",
 			},
 		},
+		"invalid request": {
+			mocked: mocked{
+				expCreateBook: false,
+			},
+			args: args{
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status:  400,
+				WantErr: true,
+				Err:     "BAD_REQUEST",
+			},
+		},
 	}
+
 	for name, tt := range tests {
 		w := httptest.NewRecorder()
 		cfg := config.LoadTestConfig()
@@ -275,6 +293,7 @@ func TestHandler_CreateBook(t *testing.T) {
 				bookCtrl: ctrlMock,
 				monitor:  monitor.TestMonitor(),
 			}
+
 			h.CreateBook(ginCtx)
 
 			assert.Equal(t, tt.expected.Status, w.Code)
@@ -319,7 +338,7 @@ func TestHandler_UpdateBook(t *testing.T) {
 				books: &model.Book{
 					ID:     1,
 					Name:   "book1",
-					Author: "author1",
+					Author: "author",
 					Topic: &model.Topic{
 						ID:   1,
 						Name: "topic1",
@@ -331,7 +350,7 @@ func TestHandler_UpdateBook(t *testing.T) {
 				id: "1",
 				req: view.CreateBookRequest{
 					Name:    "book1",
-					Author:  "author1",
+					Author:  "author",
 					TopicID: 1,
 				},
 			},
@@ -341,7 +360,7 @@ func TestHandler_UpdateBook(t *testing.T) {
 					Data: view.Book{
 						ID:     1,
 						Name:   "book1",
-						Author: "author1",
+						Author: "author",
 						Topic: &view.Topic{
 							ID:   1,
 							Name: "topic1",
@@ -360,7 +379,7 @@ func TestHandler_UpdateBook(t *testing.T) {
 				id: "1",
 				req: view.CreateBookRequest{
 					Name:    "book1",
-					Author:  "author1",
+					Author:  "author",
 					TopicID: 1,
 				},
 			},
@@ -368,6 +387,24 @@ func TestHandler_UpdateBook(t *testing.T) {
 				Status:  500,
 				WantErr: true,
 				Err:     "INTERNAL_ERROR",
+			},
+		},
+		"invalid author format": {
+			mocked: mocked{
+				expUpdateBook: false,
+			},
+			args: args{
+				id: "1",
+				req: view.CreateBookRequest{
+					Name:    "book1",
+					Author:  "author1",
+					TopicID: 1,
+				},
+			},
+			expected: expected{
+				Status:  400,
+				WantErr: true,
+				Err:     "BAD_REQUEST",
 			},
 		},
 	}

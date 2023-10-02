@@ -141,6 +141,7 @@
                     "Book"
                 ],
                 "summary": "Get list of books",
+                "operationId": "getBooks",
                 "parameters": [
                     {
                         "type": "integer",
@@ -217,6 +218,7 @@
                     "Book"
                 ],
                 "summary": "Create new book",
+                "operationId": "createBook",
                 "parameters": [
                     {
                         "description": "Create Book Request",
@@ -274,6 +276,7 @@
                     "Book"
                 ],
                 "summary": "Update book",
+                "operationId": "updateBook",
                 "parameters": [
                     {
                         "type": "integer",
@@ -336,6 +339,7 @@
                     "Book"
                 ],
                 "summary": "Delete book by id",
+                "operationId": "deleteBook",
                 "parameters": [
                     {
                         "type": "integer",
@@ -438,6 +442,7 @@
                     "Topic"
                 ],
                 "summary": "Get all topics",
+                "operationId": "getTopics",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -650,6 +655,7 @@
         "CreateBookRequest": {
             "type": "object",
             "required": [
+                "author",
                 "name"
             ],
             "properties": {
@@ -716,7 +722,8 @@
                     "format": "email"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8
                 }
             }
         },
@@ -827,7 +834,8 @@
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8
                 }
             }
         },
@@ -859,6 +867,7 @@
         "UpdateBookRequest": {
             "type": "object",
             "required": [
+                "author",
                 "name"
             ],
             "properties": {

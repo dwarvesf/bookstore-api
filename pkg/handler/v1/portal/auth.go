@@ -29,7 +29,7 @@ func (h Handler) Login(c *gin.Context) {
 
 	var req view.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		util.HandleError(c, view.ErrBadRequest(err))
+		util.HandleError(c, err)
 		return
 	}
 
@@ -72,7 +72,7 @@ func (h Handler) Signup(c *gin.Context) {
 
 	var req view.SignupRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		util.HandleError(c, view.ErrBadRequest(err))
+		util.HandleError(c, err)
 		return
 	}
 
@@ -80,6 +80,7 @@ func (h Handler) Signup(c *gin.Context) {
 		Email:    req.Email,
 		Password: req.Password,
 		Name:     req.FullName,
+		Avatar:   req.Avatar,
 	})
 	if err != nil {
 		h.log.Error(err)
