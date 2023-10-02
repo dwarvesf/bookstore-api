@@ -239,6 +239,9 @@ func Test_repo_Create(t *testing.T) {
 }
 
 func Test_repo_Update(t *testing.T) {
+	fullName := "admin1"
+	avatar := "https://d.foundation/avatar2.png"
+
 	db.WithTestingDB(t, func(ctx db.Context) {
 		u := &orm.User{
 			Email:          "admin@d.foundation",
@@ -265,8 +268,8 @@ func Test_repo_Update(t *testing.T) {
 				args: args{
 					uID: u.ID,
 					user: model.UpdateUserRequest{
-						FullName: "admin1",
-						Avatar:   "https://d.foundation/avatar2.png",
+						FullName: &fullName,
+						Avatar:   &avatar,
 					},
 				},
 				want: &model.User{

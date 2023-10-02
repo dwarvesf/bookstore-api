@@ -282,6 +282,9 @@ func Test_repo_Create(t *testing.T) {
 
 func Test_repo_Update(t *testing.T) {
 	db.WithTestingDB(t, func(ctx db.Context) {
+		name := "book2"
+		author := "author2"
+
 		user := &orm.User{
 			Email:          "test@gmail.com",
 			HashedPassword: "password1",
@@ -319,9 +322,9 @@ func Test_repo_Update(t *testing.T) {
 				args: args{
 					book: model.UpdateBookRequest{
 						ID:      u.ID,
-						Name:    "book2",
-						Author:  "author2",
-						TopicID: topic.ID,
+						Name:    &name,
+						Author:  &author,
+						TopicID: &topic.ID,
 					},
 				},
 				want: &model.Book{

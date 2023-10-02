@@ -17,6 +17,9 @@ import (
 )
 
 func Test_impl_UpdateUser(t *testing.T) {
+	fullName := "admin1"
+	avatar := "https://d.foundation/avatar1.png"
+
 	type mocked struct {
 		uID                 int
 		expGetUserCalled    bool
@@ -64,8 +67,8 @@ func Test_impl_UpdateUser(t *testing.T) {
 			},
 			args: args{
 				req: model.UpdateUserRequest{
-					FullName: "admin1",
-					Avatar:   "https://d.foundation/avatar1.png",
+					FullName: &fullName,
+					Avatar:   &avatar,
 				},
 			},
 			want: &model.User{
@@ -89,8 +92,8 @@ func Test_impl_UpdateUser(t *testing.T) {
 			},
 			args: args{
 				req: model.UpdateUserRequest{
-					FullName: "admin1",
-					Avatar:   "https://d.foundation/avatar1.png",
+					FullName: &fullName,
+					Avatar:   &avatar,
 				},
 			},
 			wantErr: true,

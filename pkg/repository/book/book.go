@@ -69,17 +69,25 @@ func (r *repo) Create(ctx db.Context, book model.CreateBookRequest) (*model.Book
 }
 
 func (r *repo) Update(ctx db.Context, book model.UpdateBookRequest) (*model.Book, error) {
-	u, err := orm.FindBook(ctx, ctx.DB, book.ID)
+	b, err := orm.FindBook(ctx, ctx.DB, book.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	u.Name = book.Name
-	u.Author = null.String{String: book.Author, Valid: book.Author != ""}
-	u.TopicID = null.Int{Int: book.TopicID, Valid: book.TopicID > 0}
+	if book.Name != nil {
+		b.Name = *book.Name
+	}
 
-	_, err = u.Update(ctx, ctx.DB, boil.Infer())
-	return toBookModel(u), err
+	if book.Author != nil {
+		b.Author = null.String{String: *book.Author, Valid: *book.Author != ""}
+	}
+
+	if book.TopicID != nil {
+		b.TopicID = null.Int{Int: *book.TopicID, Valid: *book.TopicID > 0}
+	}
+
+	_, err = b.Update(ctx, ctx.DB, boil.Infer())
+	return toBookModel(b), err
 }
 
 func (r *repo) IsExist(ctx db.Context, ID int, userID int) (bool, error) {

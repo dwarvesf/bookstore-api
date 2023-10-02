@@ -656,7 +656,8 @@
             "type": "object",
             "required": [
                 "author",
-                "name"
+                "name",
+                "topicId"
             ],
             "properties": {
                 "author": {
@@ -866,10 +867,6 @@
         },
         "UpdateBookRequest": {
             "type": "object",
-            "required": [
-                "author",
-                "name"
-            ],
             "properties": {
                 "author": {
                     "type": "string"

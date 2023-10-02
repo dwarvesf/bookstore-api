@@ -83,6 +83,9 @@ func TestHandler_Me(t *testing.T) {
 }
 
 func TestHandler_UpdateUser(t *testing.T) {
+	fullName := "Admin"
+	avatar := "https://www.google.com"
+
 	type mocked struct {
 		expUpdateJWT  bool
 		userID        int
@@ -117,8 +120,8 @@ func TestHandler_UpdateUser(t *testing.T) {
 			},
 			args: args{
 				input: view.UpdateUserRequest{
-					FullName: "Admin",
-					Avatar:   "https://www.google.com",
+					FullName: &fullName,
+					Avatar:   &avatar,
 				},
 			},
 			expected: expected{

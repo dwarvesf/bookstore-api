@@ -32,8 +32,8 @@ func (c *impl) UpdateBook(ctx context.Context, book model.UpdateBookRequest) (*m
 		return nil, err
 	}
 
-	if book.TopicID > 0 {
-		isExist, err := c.repo.Topic.IsExist(dbCtx, book.TopicID)
+	if book.TopicID != nil && *book.TopicID > 0 {
+		isExist, err := c.repo.Topic.IsExist(dbCtx, *book.TopicID)
 		if err != nil {
 			return nil, err
 		}

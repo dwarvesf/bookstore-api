@@ -13,8 +13,8 @@ type Me struct {
 
 // UpdateUserRequest represent the update user request
 type UpdateUserRequest struct {
-	FullName string `json:"fullName"`
-	Avatar   string `json:"avatar"`
+	FullName *string `json:"fullName"`
+	Avatar   *string `json:"avatar"`
 } // @name UpdateUserRequest
 
 // UpdatePasswordRequest represent the update password request
