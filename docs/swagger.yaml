@@ -53,6 +53,7 @@ definitions:
     required:
     - author
     - name
+    - topicId
     type: object
   ErrorDetail:
     properties:
@@ -193,9 +194,6 @@ definitions:
         type: string
       topicId:
         type: integer
-    required:
-    - author
-    - name
     type: object
   UpdatePasswordRequest:
     properties:

@@ -22,8 +22,8 @@ const (
 
 // UpdateUserRequest represent the update user request
 type UpdateUserRequest struct {
-	FullName string
-	Avatar   string
+	FullName *string
+	Avatar   *string
 }
 
 // UpdatePasswordRequest represent the update password request

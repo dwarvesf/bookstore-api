@@ -21,6 +21,10 @@ import (
 )
 
 func Test_impl_UpdateBook(t *testing.T) {
+	name := "book1"
+	author := "author1"
+	topicID := 1
+
 	type mocked struct {
 		expGetByUserAndIDCalled bool
 		getByUserAndID          *model.Book
@@ -76,9 +80,9 @@ func Test_impl_UpdateBook(t *testing.T) {
 				uID: 1,
 				req: model.UpdateBookRequest{
 					ID:      1,
-					Name:    "book1",
-					Author:  "author1",
-					TopicID: 1,
+					Name:    &name,
+					Author:  &author,
+					TopicID: &topicID,
 				},
 			},
 			wantErr: false,
@@ -99,9 +103,9 @@ func Test_impl_UpdateBook(t *testing.T) {
 				uID: 1,
 				req: model.UpdateBookRequest{
 					ID:      1,
-					Name:    "book1",
-					Author:  "author1",
-					TopicID: 1,
+					Name:    &name,
+					Author:  &author,
+					TopicID: &topicID,
 				},
 			},
 			wantErr: true,
@@ -123,9 +127,9 @@ func Test_impl_UpdateBook(t *testing.T) {
 				uID: 1,
 				req: model.UpdateBookRequest{
 					ID:      1,
-					Name:    "book1",
-					Author:  "author1",
-					TopicID: 1,
+					Name:    &name,
+					Author:  &author,
+					TopicID: &topicID,
 				},
 			},
 			wantErr: true,
@@ -139,9 +143,9 @@ func Test_impl_UpdateBook(t *testing.T) {
 				uID: 1,
 				req: model.UpdateBookRequest{
 					ID:      1,
-					Name:    "book1",
-					Author:  "author1",
-					TopicID: 1,
+					Name:    &name,
+					Author:  &author,
+					TopicID: &topicID,
 				},
 			},
 			wantErr: true,

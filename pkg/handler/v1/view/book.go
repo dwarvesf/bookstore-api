@@ -24,14 +24,14 @@ type BooksResponse = ListResponse[Book] // @name BooksResponse
 type CreateBookRequest struct {
 	Name    string `json:"name" validate:"required" binding:"required"`
 	Author  string `json:"author" validate:"required" binding:"required,author"`
-	TopicID int    `json:"topicId"`
+	TopicID int    `json:"topicId" validate:"required" binding:"required,gt=0"`
 } // @name CreateBookRequest
 
 // UpdateBookRequest represent the update book request
 type UpdateBookRequest struct {
-	Name    string `json:"name" validate:"required" binding:"required"`
-	Author  string `json:"author" validate:"required" binding:"required,author"`
-	TopicID int    `json:"topicId"`
+	Name    *string `json:"name"`
+	Author  *string `json:"author" binding:"omitempty,author"`
+	TopicID *int    `json:"topicId" binding:"omitempty,gt=0"`
 } // @name UpdateBookRequest
 
 // BookResponse represent the book response

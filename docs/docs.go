@@ -664,7 +664,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "author",
-                "name"
+                "name",
+                "topicId"
             ],
             "properties": {
                 "author": {
@@ -874,10 +875,6 @@ const docTemplate = `{
         },
         "UpdateBookRequest": {
             "type": "object",
-            "required": [
-                "author",
-                "name"
-            ],
             "properties": {
                 "author": {
                     "type": "string"

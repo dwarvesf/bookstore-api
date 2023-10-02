@@ -69,8 +69,13 @@ func (r *repo) Update(ctx db.Context, uID int, user model.UpdateUserRequest) (*m
 		return nil, err
 	}
 
-	u.Name = user.FullName
-	u.Avatar = user.Avatar
+	if user.FullName != nil {
+		u.Name = *user.FullName
+	}
+
+	if user.Avatar != nil {
+		u.Avatar = *user.Avatar
+	}
 
 	_, err = u.Update(ctx, ctx.DB, boil.Infer())
 

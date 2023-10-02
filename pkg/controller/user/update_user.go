@@ -19,13 +19,10 @@ func (c *impl) UpdateUser(ctx context.Context, user model.UpdateUserRequest) (*m
 	}
 
 	dbCtx := db.FromContext(ctx)
-	u, err := c.repo.User.GetByID(dbCtx, uID)
+	_, err = c.repo.User.GetByID(dbCtx, uID)
 	if err != nil {
 		return nil, err
 	}
-
-	u.Avatar = user.Avatar
-	u.FullName = user.FullName
 
 	updated, err := c.repo.User.Update(dbCtx, uID, user)
 	if err != nil {
