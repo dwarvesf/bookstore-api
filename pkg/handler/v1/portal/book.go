@@ -72,6 +72,41 @@ func (h Handler) GetBooks(c *gin.Context) {
 	})
 }
 
+// GetBook godoc
+// @Summary Get book by id
+// @Description Get book by id
+// @id getBook
+// @Tags Book
+// @Accept  json
+// @Produce  json
+// @Security BearerAuth
+// @Param id path int true "Book ID"
+// @Success 200 {object} BookResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /books/{id} [get]
+func (h Handler) GetBook(c *gin.Context) {
+	const spanName = "GetBook"
+	ctx, span := h.monitor.Start(c.Request.Context(), spanName)
+	defer span.End()
+
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		util.HandleError(c, view.ErrBadRequest(model.ErrInvalidBookID))
+		return
+	}
+
+	rs, err := h.bookCtrl.GetBook(ctx, id)
+	if err != nil {
+		util.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, view.BookResponse{Data: *toBookView(rs)})
+}
+
 func toBookView(b *model.Book) *view.Book {
 	if b == nil {
 		return nil

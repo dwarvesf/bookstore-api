@@ -110,6 +110,7 @@ func authenticatedHandler(r *gin.Engine, a App) {
 	bookGroup := apiV1.Group("/books")
 	{
 		bookGroup.GET("", portalHandler.GetBooks)
+		bookGroup.GET("/:id", portalHandler.GetBook)
 		bookGroup.POST("", portalHandler.CreateBook)
 		bookGroup.PUT("/:id", portalHandler.UpdateBook)
 		bookGroup.DELETE("/:id", portalHandler.DeleteBook)

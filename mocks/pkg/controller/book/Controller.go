@@ -120,6 +120,61 @@ func (_c *Controller_DeleteBook_Call) RunAndReturn(run func(context.Context, int
 	return _c
 }
 
+// GetBook provides a mock function with given fields: ctx, id
+func (_m *Controller) GetBook(ctx context.Context, id int) (*model.Book, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *model.Book
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*model.Book, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *model.Book); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Book)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Controller_GetBook_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetBook'
+type Controller_GetBook_Call struct {
+	*mock.Call
+}
+
+// GetBook is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id int
+func (_e *Controller_Expecter) GetBook(ctx interface{}, id interface{}) *Controller_GetBook_Call {
+	return &Controller_GetBook_Call{Call: _e.mock.On("GetBook", ctx, id)}
+}
+
+func (_c *Controller_GetBook_Call) Run(run func(ctx context.Context, id int)) *Controller_GetBook_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *Controller_GetBook_Call) Return(_a0 *model.Book, _a1 error) *Controller_GetBook_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *Controller_GetBook_Call) RunAndReturn(run func(context.Context, int) (*model.Book, error)) *Controller_GetBook_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetBooks provides a mock function with given fields: ctx, q, topicID
 func (_m *Controller) GetBooks(ctx context.Context, q model.ListQuery, topicID int) (*model.ListResult[model.Book], error) {
 	ret := _m.Called(ctx, q, topicID)
