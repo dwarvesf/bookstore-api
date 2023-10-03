@@ -177,6 +177,100 @@ func TestHandler_GetBooks(t *testing.T) {
 	}
 }
 
+func TestHandler_GetBook(t *testing.T) {
+	type mocked struct {
+		expGetBook bool
+		book       *model.Book
+		getBookErr error
+	}
+
+	type expected struct {
+		Status  int
+		Body    view.BookResponse
+		WantErr bool
+		Err     string
+	}
+	tests := map[string]struct {
+		mocked   mocked
+		expected expected
+	}{
+		"success": {
+			mocked: mocked{
+				expGetBook: true,
+				book: &model.Book{
+					ID:     1,
+					Name:   "book1",
+					Author: "author1",
+					Topic: &model.Topic{
+						ID:   1,
+						Name: "topic1",
+						Code: "code1",
+					},
+				},
+			},
+			expected: expected{
+				Status: 200,
+				Body: view.BookResponse{
+					Data: view.Book{
+						ID:     1,
+						Name:   "book1",
+						Author: "author1",
+						Topic: &view.Topic{
+							ID:   1,
+							Name: "topic1",
+							Code: "code1",
+						},
+					},
+				},
+			},
+		},
+		"failed to get": {
+			mocked: mocked{
+				expGetBook: true,
+				getBookErr: errors.New("failed to get books"),
+			},
+			expected: expected{
+				Status:  500,
+				WantErr: true,
+				Err:     "INTERNAL_ERROR",
+			},
+		},
+	}
+	for name, tt := range tests {
+		w := httptest.NewRecorder()
+		cfg := config.LoadTestConfig()
+		params := []gin.Param{{Key: "id", Value: "1"}}
+		ginCtx := testutil.NewRequest(w, testutil.MethodGet, nil, params, nil, nil)
+
+		var (
+			ctrlMock = mocks.NewController(t)
+		)
+
+		if tt.mocked.expGetBook {
+			ctrlMock.EXPECT().GetBook(mock.Anything, mock.Anything).Return(tt.mocked.book, tt.mocked.getBookErr)
+		}
+		t.Run(name, func(t *testing.T) {
+			h := Handler{
+				log:      logger.NewLogger(),
+				cfg:      cfg,
+				bookCtrl: ctrlMock,
+				monitor:  monitor.TestMonitor(),
+			}
+			h.GetBook(ginCtx)
+
+			assert.Equal(t, tt.expected.Status, w.Code)
+			resBody := w.Body.String()
+			body, err := json.Marshal(tt.expected.Body)
+			assert.Nil(t, err)
+			if !tt.expected.WantErr {
+				assert.Equal(t, string(body), resBody)
+			} else {
+				assert.Contains(t, resBody, tt.expected.Err)
+			}
+		})
+	}
+}
+
 func TestHandler_CreateBook(t *testing.T) {
 	type mocked struct {
 		expCreateBook bool
